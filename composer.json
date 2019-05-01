@@ -1,0 +1,64 @@
+{
+    "name": "norse-blue/extensible-objects",
+    "description": "Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects.",
+    "keywords": ["extension", "objects", "methods"],
+    "homepage": "https://norse.blue/open-source/php-extensible-objects",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/norse-blue/php-extensible-objects/issues",
+        "source": "https://github.com/norse-blue/php-extensible-objects"
+    },
+    "authors": [
+        {
+            "name": "Axel Pardemann",
+            "email": "axel.pardemann@norse.blue"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.11",
+        "phpunit/phpunit": "^8.1",
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "NorseBlue\\ExtensibleObjects\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NorseBlue\\ExtensibleObjects\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyse": [
+            "vendor/bin/phpstan analyse --ansi"
+        ],
+        "check": [
+            "composer style-check",
+            "composer analyse",
+            "composer test"
+        ],
+        "style-check": [
+            "vendor/bin/phpcs"
+        ],
+        "style-fix": [
+            "vendor/bin/phpcbf"
+        ],
+        "test": [
+            "vendor/bin/phpunit --colors=always"
+        ],
+        "test-coverage": [
+            "vendor/bin/phpunit --colors=always --coverage-clover=./build/coverage.xml --coverage-html=./build/coverage"
+        ]
+    }
+}
