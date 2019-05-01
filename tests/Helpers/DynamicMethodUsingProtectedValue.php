@@ -15,9 +15,9 @@ use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 class DynamicMethodUsingProtectedValue extends SimpleObject implements ExtensionMethod
 {
     /**
-     * @inheritDoc
+     * @return callable(int $operand)
      */
-    public function __invoke($operand = 0): callable
+    public function __invoke(): callable
     {
         /**
          * Subtract the given operand from the protected value.

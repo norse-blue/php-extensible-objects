@@ -54,7 +54,7 @@ The only caveat is they all have to be optional (have a default value):
 namespace App\Extensions;
 
 class MyObjectExtension implements ExtensionMethod {
-    public function __invoke($param1 = '', $param2 = 3, $param3 = null) {
+    public function __invoke() {
         return function($param1, $param2, $param3) {
             $str = '$param1: ' . $param1 . PHP_EOL . '$param2: ' .$param2 . PHP_EOL . '$param3: ';
             

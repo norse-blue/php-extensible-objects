@@ -15,9 +15,9 @@ use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMethod
 {
     /**
-     * @inheritDoc
+     * @return callable(int $operand)
      */
-    public function __invoke($operand = 0): callable
+    public function __invoke(): callable
     {
         /**
          * Add the given operand to the private value.
