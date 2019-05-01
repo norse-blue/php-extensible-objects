@@ -3,3 +3,10 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        -
+            message: '%Access to private property \$private_value of parent class [a-zA-Z0-9\\_]+\\SimpleObject.%'
+            path: %currentWorkingDirectory%/tests/Helpers/DynamicMethodUsingPrivateValue.php
+        -
+            message: '%Call to an undefined method [a-zA-Z0-9\\_]+::(?:add_to_private|subtract_from_protected|nonexistent)\(\).%'
+            path: %currentWorkingDirectory%/tests/Unit/ExtensionMethodTest.php
