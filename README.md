@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Extensible Objects</h1>
+  <h1>PHP Extensible Objects</h1>
   <p align="center"> 
     <a href="https://packagist.org/packages/norse-blue/extensible-objects"><img alt="Stable Release" src="https://img.shields.io/packagist/v/norse-blue/extensible-objects.svg?color=%235e81ac&style=popout-square"></a>
     <a href="https://circleci.com/gh/norse-blue/php-extensible-objects/tree/master"><img alt="Build Status" src="https://img.shields.io/circleci/project/github/norse-blue/php-extensible-objects/master.svg?color=%23a3be8c&style=popout-square"></a>
