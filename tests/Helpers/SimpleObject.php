@@ -2,6 +2,7 @@
 
 namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
+use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
 
 /**
@@ -9,7 +10,7 @@ use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
  *
  * @package NorseBlue\ExtensibleObjects\Tests\Helpers
  */
-class SimpleObject
+class SimpleObject implements Extensible
 {
     use HandlesExtensionMethods;
 
