@@ -95,7 +95,7 @@ trait HandlesExtensionMethods
         }
 
         $callable = static::$extensions[$name];
-        $extension = Closure::fromCallable($callable(...$parameters))
+        $extension = Closure::fromCallable($callable())
             ->bindTo($this, static::class);
 
         return $extension(...$parameters);
