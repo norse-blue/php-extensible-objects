@@ -45,8 +45,8 @@ class MyObject implements Extensible {
 That's all there is to it. Now you can add extension methods to the class. The best way to do so is to create an
 extension method class. This class must implement `NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod` interface.
 
-_**Note:** the usage of params that are passed by reference in extensions is not allowed because they depend on
-    `__call`, which does not allow to pass params by reference. See [Overloading][php_overloading_url]._
+_**Note:** params passed by reference in extensions are not supported because the calls depend on `__call`,
+which does not pass params by reference. See [Overloading][php_overloading_url]._
 
 ```php
 namespace App\Extensions;
