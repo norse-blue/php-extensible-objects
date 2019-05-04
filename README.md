@@ -12,7 +12,7 @@
 </div>
 <hr>
 
-**Extensible Objects** is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
+**PHP Extensible Objects** is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
 
 ## Installation
 
