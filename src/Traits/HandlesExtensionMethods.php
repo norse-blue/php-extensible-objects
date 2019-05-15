@@ -28,7 +28,10 @@ trait HandlesExtensionMethods
         if (is_string($extension) && class_exists($extension)) {
             if (!is_subclass_of($extension, ExtensionMethod::class)) {
                 throw new ClassNotExtensionMethod(
-                    sprintf('The extension method class must implement interface %s.', ExtensionMethod::class)
+                    sprintf(
+                        "The extension method class '$extension' must implement interface %s.",
+                        ExtensionMethod::class
+                    )
                 );
             }
 
@@ -36,7 +39,7 @@ trait HandlesExtensionMethods
         }
 
         if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException('The extension method is not callable.');
+            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
         }
 
         static::$extensions[$name] = $extension;
