@@ -5,13 +5,13 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
 /**
- * Class DynamicMethodUsingPrivateValue
+ * Class ChildExtensionMethodReplacement
  *
  * @package NorseBlue\ExtensibleObjects\Tests\Helpers
  *
- * @extends SimpleObject
+ * @extends ChildObject
  */
-class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMethod
+class ChildExtensionMethodReplacement extends SimpleObject implements ExtensionMethod
 {
     /**
      * @return callable(int $operand)
@@ -19,14 +19,14 @@ class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMe
     public function __invoke(): callable
     {
         /**
-         * Add the given operand to the private value.
+         * Subtract the given operand from the protected value.
          *
          * @param int $operand
          *
          * @return int
          */
         return function (int $operand): int {
-            return $this->private_value + $operand;
+            return $this->protected_value - $operand;
         };
     }
 }
