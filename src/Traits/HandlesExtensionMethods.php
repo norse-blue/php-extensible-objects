@@ -10,9 +10,7 @@ use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 
 trait HandlesExtensionMethods
 {
-    /**
-     * @var callable[] The registered extensions.
-     */
+    /** @var callable[] The registered extensions. */
     protected static $extensions = [];
 
     /**
@@ -94,7 +92,9 @@ trait HandlesExtensionMethods
     public function __call(string $name, $parameters)
     {
         if (!static::hasExtensionMethod($name)) {
-            throw new BadMethodCallException(sprintf('Extension method %s::%s does not exist.', static::class, $name));
+            throw new BadMethodCallException(
+                sprintf('Extension method %s::%s does not exist.', static::class, $name)
+            );
         }
 
         $callable = static::$extensions[$name];

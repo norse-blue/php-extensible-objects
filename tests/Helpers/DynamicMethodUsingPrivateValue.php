@@ -9,7 +9,6 @@ use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
  *
  * @package NorseBlue\ExtensibleObjects\Tests\Helpers
  *
- * @method int add_to_private(int $operand) Through DynamicMethodUsingPrivateValue extension method.
  * @extends SimpleObject
  */
 class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMethod
