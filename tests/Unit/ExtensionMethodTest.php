@@ -6,6 +6,8 @@ use BadMethodCallException;
 use Exception;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildExtensionMethodReplacement;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingPrivateValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingProtectedValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\FooObject;
@@ -18,12 +20,14 @@ class ExtensionMethodTest extends TestCase
     {
         SimpleObject::registerExtensionMethod('add_to_private', DynamicMethodUsingPrivateValue::class);
         SimpleObject::registerExtensionMethod('subtract_from_protected', DynamicMethodUsingProtectedValue::class);
+        ChildObject::registerExtensionMethod('subtract_from_protected', ChildExtensionMethodReplacement::class);
     }
 
     protected function tearDown(): void
     {
         SimpleObject::unregisterExtensionMethod('add_to_private');
         SimpleObject::unregisterExtensionMethod('subtract_from_protected');
+        ChildObject::unregisterExtensionMethod('subtract_from_protected');
     }
 
 
@@ -102,5 +106,32 @@ class ExtensionMethodTest extends TestCase
         }
 
         $this->fail(BadMethodCallException::class . ' was not thrown.');
+    }
+
+    /** @test */
+    public function child_object_inherits_parent_extension_methods()
+    {
+        $this->assertTrue(ChildObject::hasExtensionMethod('add_to_private'));
+        $this->assertFalse(ChildObject::hasExtensionMethod('add_to_private', true));
+        $this->assertTrue(ChildObject::hasExtensionMethod('subtract_from_protected'));
+
+        $extensions = ChildObject::getExtensionMethods();
+        $extensions_excluding_parent = ChildObject::getExtensionMethods(true);
+        $parent_extensions = ChildObject::getParentExtensionMethods();
+
+        $this->assertCount(2, $extensions);
+        $this->assertCount(1, $extensions_excluding_parent);
+        $this->assertCount(2, $parent_extensions);
+
+        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']);
+        $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions['subtract_from_protected']);
+
+        $this->assertInstanceOf(
+            ChildExtensionMethodReplacement::class,
+            $extensions_excluding_parent['subtract_from_protected']
+        );
+
+        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $parent_extensions['add_to_private']);
+        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $parent_extensions['subtract_from_protected']);
     }
 }

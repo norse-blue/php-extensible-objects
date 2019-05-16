@@ -12,7 +12,7 @@
 </div>
 <hr>
 
-**Extensible Objects** is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
+**PHP Extensible Objects** is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
 
 ## Installation
 
@@ -45,10 +45,8 @@ class MyObject implements Extensible {
 That's all there is to it. Now you can add extension methods to the class. The best way to do so is to create an
 extension method class. This class must implement `NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod` interface.
 
-This is a special class that is invokable and returns a callback that will become the base class extension method.
-You can pass any number of parameters to the `__invoke` method and you have to pass them to the callback.
-
-The only caveat is they all have to be optional (have a default value):
+_**Note:** params passed by reference in extensions are not supported because the calls depend on `__call`,
+which does not pass params by reference. See [Overloading][php_overloading_url]._
 
 ```php
 namespace App\Extensions;
@@ -136,3 +134,5 @@ If you discover any security related issues, please email [security@norse.blue](
 ## License
 
 Extensible Objects is open-sourced software licensed under the [MIT](LICENSE.md) license.
+
+[php_overloading_url]: https://www.php.net/manual/en/language.oop5.overloading.php

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 See the [UNRELEASED.md](.changelog/UNRELEASED.md) file to see the upcoming changes.
 
-## Current Release [0.0.1] - yyyy-MM-dd
+## Current Release [0.2.0] - 2019-05-16
 
 See the [CURRENT.md](.changelog/CURRENT.md) file for the changelog of the latest released version.
 
@@ -19,4 +19,4 @@ See the [ROADMAP.md](.changelog/ROADMAP.md) file to see what lies ahead in the f
 
 ## Past Releases
 
-- [[0.0.1](.changelog/CHANGELOG-0.0.1.md)] - yyyy-MM-dd
+- [[0.1.0](.changelog/CHANGELOG-0.0.1.md)] - 2019-05-01

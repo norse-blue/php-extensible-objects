@@ -4,15 +4,14 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 
 use BadMethodCallException;
 use Closure;
+use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 
 trait HandlesExtensionMethods
 {
-    /**
-     * @var callable[] The registered extensions.
-     */
+    /** @var callable[] The registered extensions. */
     protected static $extensions = [];
 
     /**
@@ -28,7 +27,10 @@ trait HandlesExtensionMethods
         if (is_string($extension) && class_exists($extension)) {
             if (!is_subclass_of($extension, ExtensionMethod::class)) {
                 throw new ClassNotExtensionMethod(
-                    sprintf('The extension method class must implement interface %s.', ExtensionMethod::class)
+                    sprintf(
+                        "The extension method class '$extension' must implement interface %s.",
+                        ExtensionMethod::class
+                    )
                 );
             }
 
@@ -36,7 +38,7 @@ trait HandlesExtensionMethods
         }
 
         if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException('The extension method is not callable.');
+            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
         }
 
         static::$extensions[$name] = $extension;
@@ -58,22 +60,50 @@ trait HandlesExtensionMethods
      * Check if the extension is registered.
      *
      * @param string $name The name of the extension method.
+     * @param bool $exclude_parent If true, excludes parent extension methods
      *
-     * @return bool True if the extension is registered, false otherwise.
+     * @return bool true if the extension is registered, false otherwise.
      */
-    public static function hasExtensionMethod(string $name): bool
+    public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
     {
-        return isset(static::$extensions[$name]);
+        if (isset(static::$extensions[$name])) {
+            return true;
+        }
+
+        return ($exclude_parent) ? false : isset(static::getParentExtensionMethods()[$name]);
     }
 
     /**
      * Get the registered extension methods.
      *
+     * @param bool $exclude_parent If true, excludes parent extension methods
+     *
      * @return callable[]
      */
-    public static function getExtensionMethods(): array
+    public static function getExtensionMethods(bool $exclude_parent = false): array
     {
-        return static::$extensions;
+        $base_extensions = [];
+        if (!$exclude_parent) {
+            $base_extensions = static::getParentExtensionMethods();
+        }
+
+        return array_merge($base_extensions, static::$extensions);
+    }
+
+    /**
+     * Get the parent extension methods.
+     *
+     * @return callable[]
+     */
+    public static function getParentExtensionMethods(): array
+    {
+        $parent = get_parent_class(static::class);
+        if ($parent === false || !is_subclass_of($parent, Extensible::class)) {
+            return [];
+        }
+
+        /** @var Extensible $parent */
+        return $parent::getExtensionMethods();
     }
 
     //region Magic Methods =====
@@ -91,11 +121,13 @@ trait HandlesExtensionMethods
     public function __call(string $name, $parameters)
     {
         if (!static::hasExtensionMethod($name)) {
-            throw new BadMethodCallException(sprintf('Extension method %s::%s does not exist.', static::class, $name));
+            throw new BadMethodCallException(
+                sprintf('Extension method %s::%s does not exist.', static::class, $name)
+            );
         }
 
         $callable = static::$extensions[$name];
-        $extension = Closure::fromCallable($callable(...$parameters))
+        $extension = Closure::fromCallable($callable())
             ->bindTo($this, static::class);
 
         return $extension(...$parameters);
