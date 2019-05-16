@@ -126,7 +126,10 @@ class ExtensionMethodTest extends TestCase
         $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']);
         $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions['subtract_from_protected']);
 
-        $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions_excluding_parent['subtract_from_protected']);
+        $this->assertInstanceOf(
+            ChildExtensionMethodReplacement::class,
+            $extensions_excluding_parent['subtract_from_protected']
+        );
 
         $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $parent_extensions['add_to_private']);
         $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $parent_extensions['subtract_from_protected']);
