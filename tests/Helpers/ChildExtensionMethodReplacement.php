@@ -26,7 +26,7 @@ class ChildExtensionMethodReplacement extends SimpleObject implements ExtensionM
          * @return int
          */
         return function (int $operand): int {
-            return $this->protected_value - $operand;
+            return $this->protected_value - $operand - $operand;
         };
     }
 }
