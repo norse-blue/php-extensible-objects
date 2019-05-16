@@ -19,4 +19,4 @@ See the [ROADMAP.md](.changelog/ROADMAP.md) file to see what lies ahead in the f
 
 ## Past Releases
 
-- [[0.1.0](.changelog/CHANGELOG-0.0.1.md)] - 2019-05-01
+- [[0.1.0](.changelog/CHANGELOG-0.1.0.md)] - 2019-05-01
