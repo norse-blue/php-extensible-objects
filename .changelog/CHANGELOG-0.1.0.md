@@ -6,3 +6,7 @@ First alpha release.
 
 - Base Extensible and ExtensionMethod contracts.
 - Trait that handles the extension method workflow.
+
+---
+
+No previous release

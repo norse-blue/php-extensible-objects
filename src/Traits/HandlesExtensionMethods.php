@@ -126,7 +126,7 @@ trait HandlesExtensionMethods
             );
         }
 
-        $callable = static::$extensions[$name];
+        $callable = static::getExtensionMethods()[$name];
         $extension = Closure::fromCallable($callable())
             ->bindTo($this, static::class);
 
