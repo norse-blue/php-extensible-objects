@@ -77,7 +77,7 @@ trait HandlesExtensionMethods
             return true;
         }
 
-        return ($exclude_parent) ? false : isset(static::getParentExtensionMethods()[$name]);
+        return $exclude_parent ? false : isset(static::getParentExtensionMethods()[$name]);
     }
 
     /**
