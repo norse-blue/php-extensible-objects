@@ -1,7 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NorseBlue\ExtensibleObjects\Contracts;
 
+/**
+ * Interface Extensible
+ *
+ * @package NorseBlue\ExtensibleObjects\Contracts
+ */
 interface Extensible
 {
     /**
@@ -27,15 +34,25 @@ interface Extensible
      * Check if the extension is registered.
      *
      * @param string $name The name of the extension method.
+     * @param bool $exclude_parent If true, excludes parent extension methods.
      *
      * @return bool True if the extension is registered, false otherwise.
      */
-    public static function hasExtensionMethod(string $name): bool;
+    public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool;
 
     /**
      * Get the registered extension methods.
      *
-     * @return callable[]
+     * @param bool $exclude_parent If true, excludes parent extension methods.
+     *
+     * @return array<callable>
      */
-    public static function getExtensionMethods(): array;
+    public static function getExtensionMethods(bool $exclude_parent = false): array;
+
+    /**
+     * Get the parent extension methods.
+     *
+     * @return array<callable>
+     */
+    public static function getParentExtensionMethods(): array;
 }

@@ -7,11 +7,11 @@ namespace NorseBlue\ExtensibleObjects\Exceptions;
 use RuntimeException;
 
 /**
- * Class ExtensionNotCallableException
+ * Class ClassNotExtensionMethodException
  *
  * @package NorseBlue\ExtensibleObjects\Exceptions
  */
-final class ExtensionNotCallableException extends RuntimeException
+final class ClassNotExtensionMethodException extends RuntimeException
 {
 
 }
