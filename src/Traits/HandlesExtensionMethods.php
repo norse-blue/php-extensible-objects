@@ -41,7 +41,7 @@ trait HandlesExtensionMethods
                 );
             }
 
-            $extension = new $extension;
+            $extension = new $extension();
         }
 
         if (!is_callable($extension)) {
