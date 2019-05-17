@@ -7,9 +7,7 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 use BadMethodCallException;
 use Closure;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
-use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
-use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
-use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
+use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
 
 /**
  * Trait HandlesExtensionMethods
@@ -31,24 +29,7 @@ trait HandlesExtensionMethods
      */
     final public static function registerExtensionMethod(string $name, $extension): void
     {
-        if (is_string($extension) && class_exists($extension)) {
-            if (!is_subclass_of($extension, ExtensionMethod::class)) {
-                throw new ClassNotExtensionMethodException(
-                    sprintf(
-                        "The extension method class '$extension' must implement interface %s.",
-                        ExtensionMethod::class
-                    )
-                );
-            }
-
-            $extension = new $extension();
-        }
-
-        if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
-        }
-
-        static::$extensions[$name] = $extension;
+        static::$extensions[$name] = ExtensionMethodLoader::load($extension);
     }
 
     /**
