@@ -2,6 +2,11 @@
 
 namespace NorseBlue\ExtensibleObjects\Contracts;
 
+/**
+ * Interface Extensible
+ *
+ * @package NorseBlue\ExtensibleObjects\Contracts
+ */
 interface Extensible
 {
     /**

@@ -2,6 +2,11 @@
 
 namespace NorseBlue\ExtensibleObjects\Contracts;
 
+/**
+ * Interface ExtensionMethod
+ *
+ * @package NorseBlue\ExtensibleObjects\Contracts
+ */
 interface ExtensionMethod
 {
     /**

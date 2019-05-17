@@ -9,6 +9,11 @@ use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 
+/**
+ * Trait HandlesExtensionMethods
+ *
+ * @package NorseBlue\ExtensibleObjects\Traits
+ */
 trait HandlesExtensionMethods
 {
     /** @var callable[] The registered extensions. */
