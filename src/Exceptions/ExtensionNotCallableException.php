@@ -11,7 +11,7 @@ use RuntimeException;
  *
  * @package NorseBlue\ExtensibleObjects\Exceptions
  */
-class ExtensionNotCallableException extends RuntimeException
+final class ExtensionNotCallableException extends RuntimeException
 {
 
 }

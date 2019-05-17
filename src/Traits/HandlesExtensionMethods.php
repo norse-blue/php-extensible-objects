@@ -29,7 +29,7 @@ trait HandlesExtensionMethods
      *
      * @return void
      */
-    public static function registerExtensionMethod(string $name, $extension): void
+    final public static function registerExtensionMethod(string $name, $extension): void
     {
         if (is_string($extension) && class_exists($extension)) {
             if (!is_subclass_of($extension, ExtensionMethod::class)) {
@@ -58,7 +58,7 @@ trait HandlesExtensionMethods
      *
      * @return void
      */
-    public static function unregisterExtensionMethod(string $name): void
+    final public static function unregisterExtensionMethod(string $name): void
     {
         unset(static::$extensions[$name]);
     }
@@ -71,7 +71,7 @@ trait HandlesExtensionMethods
      *
      * @return bool true if the extension is registered, false otherwise.
      */
-    public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
+    final public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
     {
         if (isset(static::$extensions[$name])) {
             return true;
@@ -87,7 +87,7 @@ trait HandlesExtensionMethods
      *
      * @return array<callable>
      */
-    public static function getExtensionMethods(bool $exclude_parent = false): array
+    final public static function getExtensionMethods(bool $exclude_parent = false): array
     {
         $base_extensions = [];
         if (!$exclude_parent) {
@@ -102,7 +102,7 @@ trait HandlesExtensionMethods
      *
      * @return array<callable>
      */
-    public static function getParentExtensionMethods(): array
+    final public static function getParentExtensionMethods(): array
     {
         $parent = get_parent_class(static::class);
         if ($parent === false || !is_subclass_of($parent, Extensible::class)) {
@@ -125,7 +125,7 @@ trait HandlesExtensionMethods
      *
      * @throws \BadMethodCallException
      */
-    public function __call(string $name, array $parameters)
+    final public function __call(string $name, array $parameters)
     {
         if (!static::hasExtensionMethod($name)) {
             throw new BadMethodCallException(
