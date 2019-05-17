@@ -4,7 +4,7 @@ namespace NorseBlue\ExtensibleObjects\Tests\Feature;
 
 use BadMethodCallException;
 use Exception;
-use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod;
+use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildExtensionMethodReplacement;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildObject;
@@ -73,11 +73,11 @@ class ExtensionMethodTest extends TestCase
         try {
             SimpleObject::registerExtensionMethod('foo', FooObject::class);
         } catch (Exception $e) {
-            $this->assertInstanceOf(ClassNotExtensionMethod::class, $e);
+            $this->assertInstanceOf(ClassNotExtensionMethodException::class, $e);
             return;
         }
 
-        $this->fail(ClassNotExtensionMethod::class . ' was not thrown.');
+        $this->fail(ClassNotExtensionMethodException::class . ' was not thrown.');
     }
 
     /** @test */

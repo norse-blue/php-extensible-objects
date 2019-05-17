@@ -6,7 +6,7 @@ use BadMethodCallException;
 use Closure;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
-use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod;
+use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 
 trait HandlesExtensionMethods
@@ -26,7 +26,7 @@ trait HandlesExtensionMethods
     {
         if (is_string($extension) && class_exists($extension)) {
             if (!is_subclass_of($extension, ExtensionMethod::class)) {
-                throw new ClassNotExtensionMethod(
+                throw new ClassNotExtensionMethodException(
                     sprintf(
                         "The extension method class '$extension' must implement interface %s.",
                         ExtensionMethod::class
