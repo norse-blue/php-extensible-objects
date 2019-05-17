@@ -45,14 +45,14 @@ interface Extensible
      *
      * @param bool $exclude_parent If true, excludes parent extension methods.
      *
-     * @return callable[]
+     * @return array<callable>
      */
     public static function getExtensionMethods(bool $exclude_parent = false): array;
 
     /**
      * Get the parent extension methods.
      *
-     * @return callable[]
+     * @return array<callable>
      */
     public static function getParentExtensionMethods(): array;
 }

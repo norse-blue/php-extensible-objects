@@ -18,7 +18,7 @@ use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
  */
 trait HandlesExtensionMethods
 {
-    /** @var callable[] The registered extensions. */
+    /** @var array<callable> The registered extensions. */
     protected static $extensions = [];
 
     /**
@@ -85,7 +85,7 @@ trait HandlesExtensionMethods
      *
      * @param bool $exclude_parent If true, excludes parent extension methods.
      *
-     * @return callable[]
+     * @return array<callable>
      */
     public static function getExtensionMethods(bool $exclude_parent = false): array
     {
@@ -100,7 +100,7 @@ trait HandlesExtensionMethods
     /**
      * Get the parent extension methods.
      *
-     * @return callable[]
+     * @return array<callable>
      */
     public static function getParentExtensionMethods(): array
     {
@@ -119,13 +119,13 @@ trait HandlesExtensionMethods
      * Handle calls to dynamic methods.
      *
      * @param string $name The method name.
-     * @param array $parameters The method parameters.
+     * @param array<mixed> $parameters The method parameters.
      *
      * @return mixed
      *
      * @throws \BadMethodCallException
      */
-    public function __call(string $name, $parameters)
+    public function __call(string $name, array $parameters)
     {
         if (!static::hasExtensionMethod($name)) {
             throw new BadMethodCallException(
