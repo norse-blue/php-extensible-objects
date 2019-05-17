@@ -6,6 +6,7 @@ use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
+use SlevomatCodingStandard\Sniffs\Classes\SuperfluousExceptionNamingSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
 
 return [
@@ -48,6 +49,7 @@ return [
         ForbiddenTraits::class,
         LineLengthSniff::class,
         SpaceAfterNotSniff::class,
+        SuperfluousExceptionNamingSniff::class,
     ],
 
     'config' => [
