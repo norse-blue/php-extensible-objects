@@ -12,7 +12,7 @@ valuable insights about the code.
 - Although discouraged by some people, we like the Exception suffix for custom exception classes. A missing `Exception`
 suffix in the class name for class `NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod` was added to be
 consistent with the naming conventions.
-- We really like type hints were they are helpful, so que added a `declare(strict_types=1);` on all of our files. This
+- We really like type hints were they are helpful, so we added a `declare(strict_types=1);` on all of our files. This
 could potentially be a BC change, so please test your code thoroughly.
 - We declared some classes and methods as final now, as they are not supposed to be modified or extended. Some of the
 reasoning behind these changes is fantastically explained by [Brent](https://twitter.com/brendt_gd) in his blog post
