@@ -65,7 +65,7 @@ trait HandlesExtensionMethods
      * Check if the extension is registered.
      *
      * @param string $name The name of the extension method.
-     * @param bool $exclude_parent If true, excludes parent extension methods
+     * @param bool $exclude_parent If true, excludes parent extension methods.
      *
      * @return bool true if the extension is registered, false otherwise.
      */
@@ -81,7 +81,7 @@ trait HandlesExtensionMethods
     /**
      * Get the registered extension methods.
      *
-     * @param bool $exclude_parent If true, excludes parent extension methods
+     * @param bool $exclude_parent If true, excludes parent extension methods.
      *
      * @return callable[]
      */
