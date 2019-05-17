@@ -11,7 +11,7 @@ See the [UNRELEASED.md](.changelog/UNRELEASED.md) file to see the upcoming chang
 
 ## Current Release [0.3.0] - 2019-05-17
 
-See the [CURRENT.md](.changelog/CHANGELOG-0.3.0.md) file for the changelog of the latest released version.
+See the [changelog](.changelog/CHANGELOG-0.3.0.md) file of the current release for the latest changes.
 
 ## Roadmap
 
