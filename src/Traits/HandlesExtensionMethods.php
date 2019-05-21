@@ -16,7 +16,7 @@ use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
  */
 trait HandlesExtensionMethods
 {
-    /** @var array<callable> The registered extensions. */
+    /** @var array<string, callable> The registered extensions. */
     protected static $extensions = [];
 
     /**
@@ -66,7 +66,7 @@ trait HandlesExtensionMethods
      *
      * @param bool $exclude_parent If true, excludes parent extension methods.
      *
-     * @return array<callable>
+     * @return array<string, callable>
      */
     final public static function getExtensionMethods(bool $exclude_parent = false): array
     {
@@ -81,7 +81,7 @@ trait HandlesExtensionMethods
     /**
      * Get the parent extension methods.
      *
-     * @return array<callable>
+     * @return array<string, callable>
      */
     final public static function getParentExtensionMethods(): array
     {
