@@ -7,6 +7,7 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 use BadMethodCallException;
 use Closure;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
+use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
 use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
 
 /**
@@ -19,6 +20,8 @@ trait HandlesExtensionMethods
     /** @var array<string, callable> The registered extensions. */
     protected static $extensions = [];
 
+    /** @protected @static @var array<string> $guarded_extensions The guarded extension methods. */
+
     /**
      * Register extension method.
      *
@@ -29,6 +32,12 @@ trait HandlesExtensionMethods
      */
     final public static function registerExtensionMethod(string $name, $extension): void
     {
+        if (static::isGuardedExtensionMethod($name)) {
+            throw new GuardedExtensionMethodException(
+                "The extension method '$name' is guarded and cannot be overridden."
+            );
+        }
+
         static::$extensions[$name] = ExtensionMethodLoader::load($extension);
     }
 
@@ -41,11 +50,15 @@ trait HandlesExtensionMethods
      */
     final public static function unregisterExtensionMethod(string $name): void
     {
+        if (static::isGuardedExtensionMethod($name)) {
+            throw new GuardedExtensionMethodException("The extension method '$name' is guarded and cannot be unset.");
+        }
+
         unset(static::$extensions[$name]);
     }
 
     /**
-     * Check if the extension is registered.
+     * Check if the extension method is registered.
      *
      * @param string $name The name of the extension method.
      * @param bool $exclude_parent If true, excludes parent extension methods.
@@ -59,6 +72,22 @@ trait HandlesExtensionMethods
         }
 
         return $exclude_parent ? false : isset(static::getParentExtensionMethods()[$name]);
+    }
+
+    /**
+     * Check if the extension method is guarded.
+     *
+     * @param string $name The name of the extension method.
+     *
+     * @return bool
+     */
+    final public static function isGuardedExtensionMethod(string $name): bool
+    {
+        if (!in_array($name, static::$guarded_extensions ?? []) || !static::hasExtensionMethod($name)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -76,6 +105,16 @@ trait HandlesExtensionMethods
         }
 
         return array_merge($base_extensions, static::$extensions);
+    }
+
+    /**
+     * Get the guarded extension methods.
+     *
+     * @return array<string>
+     */
+    final public static function getGuardedExtensionMethods(): array
+    {
+        return static::$guarded_extensions ?? [];
     }
 
     /**
