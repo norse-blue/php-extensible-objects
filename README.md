@@ -97,10 +97,20 @@ $param2: 3
 $param3: foo, bar, baz
 ```
 
+The `registerExtensionMethod` accepts an array of names, so that multiple names are registered to the same extension
+method (kind of like aliases, but they are registered independently, so they are not tied to one another in any way).
+
 The extension method will be run in the class context, as it were declared inside the class. Being so, you have access
 to everything inside the base class (even private properties and methods). The extension method does not have to inherit
 from the base class, but doing so will help your IDE with auto completion and static analysis if using some class
 methods and properties.
+
+To unregister the extension method you can do:
+```php
+MyObject::unregisterExtensionMethod('my_method');
+```
+
+The `unregisterExtensionMethod` also accepts an array of names to unregister multiple extension methods in batch. 
 
 For more examples look in the [tests](tests) folder.
 
