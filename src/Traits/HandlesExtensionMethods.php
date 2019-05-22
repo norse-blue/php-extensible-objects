@@ -51,7 +51,7 @@ trait HandlesExtensionMethods
     /**
      * Unregister extension methods.
      *
-     * @param string|<array<string> $names The name(s) of the extension method.
+     * @param string|array<string> $names The name(s) of the extension method.
      *
      * @return void
      */
