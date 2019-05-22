@@ -61,7 +61,9 @@ trait HandlesExtensionMethods
 
         foreach ($names as $name) {
             if (static::isGuardedExtensionMethod($name)) {
-                throw new GuardedExtensionMethodException("The extension method '$name' is guarded and cannot be unset.");
+                throw new GuardedExtensionMethodException(
+                    "The extension method '$name' is guarded and cannot be unset."
+                );
             }
 
             unset(static::$extensions[$name]);
