@@ -25,36 +25,47 @@ trait HandlesExtensionMethods
     /**
      * Register extension method.
      *
-     * @param string $name The name of the extension method.
+     * If given an array, all names will be registered to the given callable (like defining aliases).
+     *
+     * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
      *
      * @return void
      */
-    final public static function registerExtensionMethod(string $name, $extension): void
+    final public static function registerExtensionMethod($names, $extension): void
     {
-        if (static::isGuardedExtensionMethod($name)) {
-            throw new GuardedExtensionMethodException(
-                "The extension method '$name' is guarded and cannot be overridden."
-            );
-        }
+        $names = is_string($names) ? [$names] : $names;
+        $extension = ExtensionMethodLoader::load($extension);
 
-        static::$extensions[$name] = ExtensionMethodLoader::load($extension);
+        foreach ($names as $name) {
+            if (static::isGuardedExtensionMethod($name)) {
+                throw new GuardedExtensionMethodException(
+                    "The extension method '$name' is guarded and cannot be overridden."
+                );
+            }
+
+            static::$extensions[$name] = $extension;
+        }
     }
 
     /**
-     * Unregister extension method.
+     * Unregister extension methods.
      *
-     * @param string $name The name of the extension method.
+     * @param string|<array<string> $names The name(s) of the extension method.
      *
      * @return void
      */
-    final public static function unregisterExtensionMethod(string $name): void
+    final public static function unregisterExtensionMethod($names): void
     {
-        if (static::isGuardedExtensionMethod($name)) {
-            throw new GuardedExtensionMethodException("The extension method '$name' is guarded and cannot be unset.");
-        }
+        $names = is_string($names) ? [$names] : $names;
 
-        unset(static::$extensions[$name]);
+        foreach ($names as $name) {
+            if (static::isGuardedExtensionMethod($name)) {
+                throw new GuardedExtensionMethodException("The extension method '$name' is guarded and cannot be unset.");
+            }
+
+            unset(static::$extensions[$name]);
+        }
     }
 
     /**
