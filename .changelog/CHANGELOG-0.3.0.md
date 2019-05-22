@@ -12,7 +12,7 @@ valuable insights about the code.
 - Although discouraged by some people, we like the Exception suffix for custom exception classes. A missing `Exception`
 suffix in the class name for class `NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethod` was added to be
 consistent with the naming conventions.
-- We really like type hints were they are helpful, so que added a `declare(strict_types=1);` on all of our files. This
+- We really like type hints were they are helpful, so we added a `declare(strict_types=1);` on all of our files. This
 could potentially be a BC change, so please test your code thoroughly.
 - We declared some classes and methods as final now, as they are not supposed to be modified or extended. Some of the
 reasoning behind these changes is fantastically explained by [Brent](https://twitter.com/brendt_gd) in his blog post
@@ -28,3 +28,7 @@ its own class `NorseBlue\ExtensibleObjects\ExtensionMethodLoader`, now the
 also update the contract (which could potentially break havoc, though minimized if using the included trait, if the
 needed methods were not available in your class). We are sometimes forgetful, but now it is corrected: the
 `NorseBlue\ExtensibleObjects\Contracts\Extensible` now has the proper methods declared. (Commit #4eae29)
+
+---
+
+Previous: [Release 0.2.1](CHANGELOG-0.2.1.md)

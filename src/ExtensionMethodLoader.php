@@ -40,6 +40,7 @@ abstract class ExtensionMethodLoader
         if (is_string($extension) && class_exists($extension)) {
             self::guardInvalidExtensionMethodClass($extension);
 
+            /** @var ExtensionMethod $exension */
             return new $extension();
         }
 

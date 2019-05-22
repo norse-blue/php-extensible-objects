@@ -6,11 +6,15 @@ use BadMethodCallException;
 use Exception;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
+use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildExtensionMethodReplacement;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingPrivateValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingProtectedValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\FooObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedExtensionMethod;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\OtherExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\SimpleObject;
 use NorseBlue\ExtensibleObjects\Tests\TestCase;
 
@@ -153,5 +157,43 @@ class ExtensionMethodTest extends TestCase
         $result = $obj->subtract_from_protected(3);
 
         $this->assertEquals(-6, $result);
+    }
+
+    /** @test */
+    public function cannot_override_guarded_method()
+    {
+        $this->assertFalse(GuardedObject::hasExtensionMethod('guarded'));
+        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class);
+        $this->assertTrue(GuardedObject::hasExtensionMethod('guarded'));
+        $this->assertTrue(GuardedObject::isGuardedExtensionMethod('guarded'));
+        $this->assertContains('guarded', GuardedObject::getGuardedExtensionMethods());
+
+        try {
+            GuardedObject::registerExtensionMethod('guarded', OtherExtensionMethod::class);
+        } catch (Exception $e) {
+            $this->assertInstanceOf(GuardedExtensionMethodException::class, $e);
+            return;
+        }
+
+        $this->fail(GuardedExtensionMethodException::class . ' was not thrown.');
+    }
+
+    /** @test */
+    public function cannot_unregister_guarded_method()
+    {
+        $this->assertFalse(GuardedObject::hasExtensionMethod('unregisterable'));
+        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class);
+        $this->assertTrue(GuardedObject::hasExtensionMethod('unregisterable'));
+        $this->assertTrue(GuardedObject::isGuardedExtensionMethod('unregisterable'));
+        $this->assertContains('unregisterable', GuardedObject::getGuardedExtensionMethods());
+
+        try {
+            GuardedObject::unregisterExtensionMethod('unregisterable');
+        } catch (Exception $e) {
+            $this->assertInstanceOf(GuardedExtensionMethodException::class, $e);
+            return;
+        }
+
+        $this->fail(GuardedExtensionMethodException::class . ' was not thrown.');
     }
 }

@@ -7,6 +7,7 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 use BadMethodCallException;
 use Closure;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
+use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
 use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
 
 /**
@@ -16,36 +17,61 @@ use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
  */
 trait HandlesExtensionMethods
 {
-    /** @var array<callable> The registered extensions. */
+    /** @var array<string, callable> The registered extensions. */
     protected static $extensions = [];
+
+    /** @protected @static @var array<string> $guarded_extensions The guarded extension methods. */
 
     /**
      * Register extension method.
      *
-     * @param string $name The name of the extension method.
+     * If given an array, all names will be registered to the given callable (like defining aliases).
+     *
+     * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
      *
      * @return void
      */
-    final public static function registerExtensionMethod(string $name, $extension): void
+    final public static function registerExtensionMethod($names, $extension): void
     {
-        static::$extensions[$name] = ExtensionMethodLoader::load($extension);
+        $names = is_string($names) ? [$names] : $names;
+        $extension = ExtensionMethodLoader::load($extension);
+
+        foreach ($names as $name) {
+            if (static::isGuardedExtensionMethod($name)) {
+                throw new GuardedExtensionMethodException(
+                    "The extension method '$name' is guarded and cannot be overridden."
+                );
+            }
+
+            static::$extensions[$name] = $extension;
+        }
     }
 
     /**
-     * Unregister extension method.
+     * Unregister extension methods.
      *
-     * @param string $name The name of the extension method.
+     * @param string|array<string> $names The name(s) of the extension method.
      *
      * @return void
      */
-    final public static function unregisterExtensionMethod(string $name): void
+    final public static function unregisterExtensionMethod($names): void
     {
-        unset(static::$extensions[$name]);
+        $names = is_string($names) ? [$names] : $names;
+
+        foreach ($names as $name) {
+            if (static::isGuardedExtensionMethod($name)) {
+                throw new GuardedExtensionMethodException(
+                    "The extension method '$name' is guarded and cannot be unset."
+                );
+            }
+
+            unset(static::$extensions[$name]);
+        }
     }
 
     /**
-     * Check if the extension is registered.
+     * Check if the extension method is registered.
      *
      * @param string $name The name of the extension method.
      * @param bool $exclude_parent If true, excludes parent extension methods.
@@ -62,11 +88,27 @@ trait HandlesExtensionMethods
     }
 
     /**
+     * Check if the extension method is guarded.
+     *
+     * @param string $name The name of the extension method.
+     *
+     * @return bool
+     */
+    final public static function isGuardedExtensionMethod(string $name): bool
+    {
+        if (!in_array($name, static::$guarded_extensions ?? []) || !static::hasExtensionMethod($name)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the registered extension methods.
      *
      * @param bool $exclude_parent If true, excludes parent extension methods.
      *
-     * @return array<callable>
+     * @return array<string, callable>
      */
     final public static function getExtensionMethods(bool $exclude_parent = false): array
     {
@@ -79,9 +121,19 @@ trait HandlesExtensionMethods
     }
 
     /**
+     * Get the guarded extension methods.
+     *
+     * @return array<string>
+     */
+    final public static function getGuardedExtensionMethods(): array
+    {
+        return static::$guarded_extensions ?? [];
+    }
+
+    /**
      * Get the parent extension methods.
      *
-     * @return array<callable>
+     * @return array<string, callable>
      */
     final public static function getParentExtensionMethods(): array
     {
