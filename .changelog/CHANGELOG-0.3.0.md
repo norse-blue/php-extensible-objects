@@ -28,3 +28,7 @@ its own class `NorseBlue\ExtensibleObjects\ExtensionMethodLoader`, now the
 also update the contract (which could potentially break havoc, though minimized if using the included trait, if the
 needed methods were not available in your class). We are sometimes forgetful, but now it is corrected: the
 `NorseBlue\ExtensibleObjects\Contracts\Extensible` now has the proper methods declared. (Commit #4eae29)
+
+---
+
+Previous: [Release 0.2.1](CHANGELOG-0.2.1.md)
