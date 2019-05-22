@@ -104,6 +104,31 @@ methods and properties.
 
 For more examples look in the [tests](tests) folder.
 
+### Guarding extension methods
+
+You can guard your extension methods so that they cannot be re-registered or unregistered once they are already registered.
+To do so you need to set a list of guarded methods using the `$guarded_extensions` static property in your class:
+
+```php
+namespace App;
+
+use NorseBlue\ExtensibleObjects\Contracts\Extensible;
+use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
+
+class MyObject implements Extensible {
+    use HandlesExtensionMethods;
+    
+    protected static $guarded_extensions = [
+        'one',
+        'two',
+        'three',
+    ];
+}
+```
+
+By doing so, the extension methods `one`, `two` and `three` will be guarded, so they will only allow to be registered
+the first time. After that, they will reject any changes on the extension method registration and throw an exception.
+
 ## Documentation
 
 For the full documentation refer to the [docs](docs) folder.
