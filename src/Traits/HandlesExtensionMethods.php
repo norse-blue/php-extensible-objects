@@ -34,7 +34,6 @@ trait HandlesExtensionMethods
      */
     final public static function registerExtensionMethod($names, $extension): void
     {
-        $class = get_called_class();
         $names = is_string($names) ? [$names] : $names;
         $extension = ExtensionMethodLoader::load($extension);
 
@@ -45,7 +44,7 @@ trait HandlesExtensionMethods
                 );
             }
 
-            static::$extensions[$class][$name] = $extension;
+            static::$extensions[static::class][$name] = $extension;
         }
     }
 
@@ -58,7 +57,6 @@ trait HandlesExtensionMethods
      */
     final public static function unregisterExtensionMethod($names): void
     {
-        $class = get_called_class();
         $names = is_string($names) ? [$names] : $names;
 
         foreach ($names as $name) {
@@ -68,7 +66,7 @@ trait HandlesExtensionMethods
                 );
             }
 
-            unset(static::$extensions[$class][$name]);
+            unset(static::$extensions[static::class][$name]);
         }
     }
 
@@ -82,8 +80,7 @@ trait HandlesExtensionMethods
      */
     final public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
     {
-        $class = get_called_class();
-        if (isset(static::$extensions[$class][$name])) {
+        if (isset(static::$extensions[static::class][$name])) {
             return true;
         }
 
@@ -99,7 +96,6 @@ trait HandlesExtensionMethods
      */
     final public static function isGuardedExtensionMethod(string $name): bool
     {
-        $class = get_called_class();
         if (!in_array($name, static::$guarded_extensions ?? []) || !static::hasExtensionMethod($name)) {
             return false;
         }
@@ -116,13 +112,12 @@ trait HandlesExtensionMethods
      */
     final public static function getExtensionMethods(bool $exclude_parent = false): array
     {
-        $class = get_called_class();
         $base_extensions = [];
         if (!$exclude_parent) {
             $base_extensions = static::getParentExtensionMethods();
         }
 
-        return array_merge($base_extensions, static::$extensions[$class]);
+        return array_merge($base_extensions, static::$extensions[static::class]);
     }
 
     /**
@@ -132,7 +127,6 @@ trait HandlesExtensionMethods
      */
     final public static function getGuardedExtensionMethods(): array
     {
-        $class = get_called_class();
         return static::$guarded_extensions ?? [];
     }
 
