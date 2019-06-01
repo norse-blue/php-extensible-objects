@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects;
 
+use NorseBlue\ExtensibleObjects\Contracts\Creatable;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
@@ -40,7 +41,11 @@ abstract class ExtensionMethodLoader
         if (is_string($extension) && class_exists($extension)) {
             self::guardInvalidExtensionMethodClass($extension);
 
-            /** @var ExtensionMethod $exension */
+            /** @var ExtensionMethod $extension */
+            if ($extension instanceof Creatable) {
+                return $extension::create();
+            }
+
             return new $extension();
         }
 

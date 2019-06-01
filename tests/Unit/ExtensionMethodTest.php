@@ -9,6 +9,8 @@ use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildExtensionMethodReplacement;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\CreatableObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\CreatableObjectExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingPrivateValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingProtectedValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\FooObject;
@@ -195,5 +197,15 @@ class ExtensionMethodTest extends TestCase
         }
 
         $this->fail(GuardedExtensionMethodException::class . ' was not thrown.');
+    }
+
+    public function creatable_extensible_object()
+    {
+        $this->assertFalse(CreatableObject::hasExtensionMethod('creatable'));
+        CreatableObject::registerExtensionMethod('creatable', CreatableObjectExtensionMethod::class);
+        $this->assertTrue(CreatableObject::hasExtensionMethod('creatable'));
+
+        $creatable = CreatableObject::create();
+        $this->assertEquals('created', $creatable->creatable());
     }
 }
