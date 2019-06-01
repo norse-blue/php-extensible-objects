@@ -5,9 +5,11 @@
 /.changelog export-ignore
 /.circleci export-ignore
 /.github export-ignore
+/tests export-ignore
 
 # Files
 /*.sublime-project export-ignore
+/.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /.phpcs.xml.dist export-ignore
@@ -17,4 +19,3 @@
 /phpinsights.php export-ignore
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist export-ignore
-/tests export-ignore
