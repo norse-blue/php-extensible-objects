@@ -9,7 +9,7 @@ use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
 /**
  * @method string creatable()
  */
-class CreatableObject implements Extensible, Creatable
+class CreatableObject implements Creatable, Extensible
 {
     use HandlesExtensionMethods;
 
@@ -19,6 +19,6 @@ class CreatableObject implements Extensible, Creatable
 
     public static function create()
     {
-        return new self();
+        return new static();
     }
 }

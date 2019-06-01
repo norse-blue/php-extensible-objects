@@ -199,6 +199,7 @@ class ExtensionMethodTest extends TestCase
         $this->fail(GuardedExtensionMethodException::class . ' was not thrown.');
     }
 
+    /** @test */
     public function creatable_extensible_object()
     {
         $this->assertFalse(CreatableObject::hasExtensionMethod('creatable'));

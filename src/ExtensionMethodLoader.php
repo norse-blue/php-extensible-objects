@@ -42,7 +42,8 @@ abstract class ExtensionMethodLoader
             self::guardInvalidExtensionMethodClass($extension);
 
             /** @var ExtensionMethod $extension */
-            if ($extension instanceof Creatable) {
+            if (is_subclass_of($extension, Creatable::class)) {
+                /** @var Creatable $extension */
                 return $extension::create();
             }
 
