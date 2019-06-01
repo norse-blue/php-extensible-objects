@@ -117,7 +117,7 @@ trait HandlesExtensionMethods
             $base_extensions = static::getParentExtensionMethods();
         }
 
-        return array_merge($base_extensions, static::$extensions[static::class]);
+        return array_merge($base_extensions, static::$extensions[static::class] ?? []);
     }
 
     /**
