@@ -44,7 +44,7 @@ trait HandlesExtensionMethods
                 );
             }
 
-            static::$extensions[$name] = $extension;
+            static::$extensions[static::class][$name] = $extension;
         }
     }
 
@@ -66,7 +66,7 @@ trait HandlesExtensionMethods
                 );
             }
 
-            unset(static::$extensions[$name]);
+            unset(static::$extensions[static::class][$name]);
         }
     }
 
@@ -80,7 +80,7 @@ trait HandlesExtensionMethods
      */
     final public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
     {
-        if (isset(static::$extensions[$name])) {
+        if (isset(static::$extensions[static::class][$name])) {
             return true;
         }
 
@@ -117,7 +117,7 @@ trait HandlesExtensionMethods
             $base_extensions = static::getParentExtensionMethods();
         }
 
-        return array_merge($base_extensions, static::$extensions);
+        return array_merge($base_extensions, static::$extensions[static::class]);
     }
 
     /**
