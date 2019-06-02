@@ -158,7 +158,7 @@ Contributions to this project are accepted and encouraged. Please read the [CONT
 
 ## Security
 
-If you discover any security related issues, please email [security@norse.blue](mailto:security@norse.blue) instead of using the issue tracker.
+Please review our [security policy](https://github.com/norse-blue/php-extensible-objects/security/policy) to know how to report security vulnerabilities within this package.
 
 ## Support the development
 
