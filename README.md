@@ -141,7 +141,7 @@ the first time. After that, they will reject any changes on the extension method
 
 ## Documentation
 
-For the full documentation refer to the [docs](docs) folder.
+For the full documentation refer to the [Official Documentation](https://norse-blue.github.io/php-extensible-objects/) folder.
 
 ## Changelog
 
