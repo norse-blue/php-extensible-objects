@@ -8,7 +8,7 @@ use BadMethodCallException;
 use Closure;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
-use NorseBlue\ExtensibleObjects\ExtensionMethodLoader;
+use NorseBlue\ExtensibleObjects\Support\ExtensionMethodLoader;
 
 /**
  * Trait HandlesExtensionMethods

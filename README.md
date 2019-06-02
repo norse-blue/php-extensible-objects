@@ -110,7 +110,7 @@ To unregister the extension method you can do:
 MyObject::unregisterExtensionMethod('my_method');
 ```
 
-The `unregisterExtensionMethod` also accepts an array of names to unregister multiple extension methods in batch. 
+The `unregisterExtensionMethod` also accepts an array of names to unregister multiple extension methods in batch.
 
 For more examples look in the [tests](tests) folder.
 
@@ -164,7 +164,7 @@ If you discover any security related issues, please email [security@norse.blue](
 
 **Do you like this project? Support it by donating**
 
-<a href="https://www.buymeacoffee.com/axelitus"><img src=".assets/buy-me-a-coffee.svg" width="180" alt="Buy me a coffee"></img></a>
+<a href="https://www.buymeacoffee.com/axelitus"><img src="docs/assets/images/buy-me-a-coffee.svg" width="180" alt="Buy me a coffee"></img></a>
 
 ## License
 

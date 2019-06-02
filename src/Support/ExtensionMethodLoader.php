@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NorseBlue\ExtensibleObjects;
+namespace NorseBlue\ExtensibleObjects\Support;
 
 use NorseBlue\ExtensibleObjects\Contracts\Creatable;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
