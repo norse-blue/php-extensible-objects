@@ -1,4 +1,4 @@
-{% raw %}---
+---
 ---
 {
 {% for page in site.html_pages %}{% if page.search_exclude != true %}"{{ forloop.index0 }}": {
@@ -9,4 +9,4 @@
 "relUrl": "{{ page.url }}"
 }{% unless forloop.last %},{% endunless %}
 {% endif %}{% endfor %}
-}{% endraw %}
+}
