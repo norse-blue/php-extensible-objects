@@ -5,6 +5,8 @@
 /.vagrant
 /.vscode
 /build
+/docs/.sass-cache
+/docs/_site
 /vendor
 
 # Files

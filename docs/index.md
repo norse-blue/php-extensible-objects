@@ -1,6 +1,14 @@
-<div align="center">
-  <h1>PHP Extensible Objects</h1>
-  <p align="center"> 
+---
+layout: default
+title: Home
+nav_order: 1
+description: PHP Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
+---
+
+# PHP Extensible Objects
+
+<div align="left">
+  <p align="left"> 
     <a href="https://packagist.org/packages/norse-blue/extensible-objects"><img alt="Stable Release" src="https://img.shields.io/packagist/v/norse-blue/extensible-objects.svg?color=%235e81ac&style=popout-square"></a>
     <a href="https://circleci.com/gh/norse-blue/php-extensible-objects/tree/master"><img alt="Build Status" src="https://img.shields.io/circleci/project/github/norse-blue/php-extensible-objects/master.svg?color=%23a3be8c&style=popout-square"></a>
     <a href="https://php.net/releases"><img alt="PHP Version" src="https://img.shields.io/packagist/php-v/norse-blue/extensible-objects.svg?color=%23b48ead&style=popout-square"></a>
@@ -14,7 +22,13 @@
 
 **PHP Extensible Objects** is a PHP library that provides the mechanisms to dynamically add extension methods to objects.
 
-## Installation
+[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/norse-blue/php-extensible-objects){: .btn .fs-5 .mb-4 .mb-md-0 }
+
+---
+
+## Getting started
+
+### Installation
 
 >Requirements:
 >- [PHP 7.3+](https://php.net/releases)
@@ -25,7 +39,7 @@ Install Extensible Objects using Composer:
 composer require norse-blue/extensible-objects
 ```
 
-## Usage
+### Basic usage
 
 Create a base class that is to be extensible. To be extensible it has to implement 
 `NorseBlue\ExtensibleObjects\Contracts\Extensible` and it should use
@@ -112,49 +126,18 @@ MyObject::unregisterExtensionMethod('my_method');
 
 The `unregisterExtensionMethod` also accepts an array of names to unregister multiple extension methods in batch.
 
-For more examples look in the [tests](tests) folder.
-
-### Guarding extension methods
-
-You can guard your extension methods so that they cannot be re-registered or unregistered once they are already registered.
-To do so you need to set a list of guarded methods using the `$guarded_extensions` static property in your class:
-
-```php
-namespace App;
-
-use NorseBlue\ExtensibleObjects\Contracts\Extensible;
-use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
-
-class MyObject implements Extensible {
-    use HandlesExtensionMethods;
-    
-    protected static $guarded_extensions = [
-        'one',
-        'two',
-        'three',
-    ];
-}
-```
-
-By doing so, the extension methods `one`, `two` and `three` will be guarded, so they will only allow to be registered
-the first time. After that, they will reject any changes on the extension method registration and throw an exception.
-
-## Documentation
-
-For the full documentation refer to the [docs](docs) folder.
-
 ## Changelog
 
-Please refer to the [CHANGELOG.md](CHANGELOG.md) file for more information about what has changed recently.
+Please refer to the [CHANGELOG.md](https://github.com/norse-blue/php-extensible-objects/blob/master/CHANGELOG.md) file for more information about what has changed recently.
 
 ## Contributing
 
-Contributions to this project are accepted and encouraged. Please read the [CONTRIBUTING.md](.github/CONTRIBUTING.md) file for details on contributions.
+Contributions to this project are accepted and encouraged. Please read the [CONTRIBUTING.md](https://github.com/norse-blue/php-extensible-objects/blob/master/.github/CONTRIBUTING.md) file for details on contributions.
 
 ## Credits
 
 - [Axel Pardemann](https://github.com/axelitus)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/norse-blue/php-extensible-objects/graphs/contributors)
 
 ## Security
 
@@ -164,10 +147,10 @@ If you discover any security related issues, please email [security@norse.blue](
 
 **Do you like this project? Support it by donating**
 
-<a href="https://www.buymeacoffee.com/axelitus"><img src="docs/assets/images/buy-me-a-coffee.svg" width="180" alt="Buy me a coffee"></img></a>
+<a href="https://www.buymeacoffee.com/axelitus"><img src="assets/images/buy-me-a-coffee.svg" width="180" alt="Buy me a coffee" /></a>
 
 ## License
 
-Extensible Objects is open-sourced software licensed under the [MIT](LICENSE.md) license.
+Extensible Objects is open-sourced software licensed under the [MIT](https://github.com/norse-blue/php-extensible-objects/blob/master/LICENSE.md) license.
 
 [php_overloading_url]: https://www.php.net/manual/en/language.oop5.overloading.php
