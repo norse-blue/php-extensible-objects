@@ -30,11 +30,11 @@ trait HandlesExtensionMethods
      *
      * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
-     * @param bool $guard Whether to guard the extension method being registered or not.
+     * @param bool|null $guard Whether to guard the extension method being registered or not.
      *
      * @return void
      */
-    final public static function registerExtensionMethod($names, $extension, bool $guard = false): void
+    final public static function registerExtensionMethod($names, $extension, ?bool $guard = null): void
     {
         $names = is_string($names) ? [$names] : $names;
         $extension = ExtensionMethodLoader::load($extension);
@@ -47,7 +47,7 @@ trait HandlesExtensionMethods
             }
 
             static::$extensions[static::class][$name] = [
-                'guarded' => static::$guard_extensions || $guard,
+                'guarded' => $guard === null ? static::$guard_extensions : $guard,
                 'method' => $extension,
             ];
         }
