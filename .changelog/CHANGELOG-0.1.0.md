@@ -8,5 +8,4 @@ First alpha release.
 - Trait that handles the extension method workflow.
 
 ---
-
 No previous release
