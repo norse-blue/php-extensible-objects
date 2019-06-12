@@ -20,7 +20,7 @@ abstract class ExtensionMethodLoader
      *
      * @return string|callable
      */
-    protected static function prepareExtensionMethod($extension)
+    final protected static function prepareExtensionMethod($extension)
     {
         if (is_string($extension) && class_exists($extension)) {
             self::guardInvalidExtensionMethodClass($extension);
@@ -38,7 +38,7 @@ abstract class ExtensionMethodLoader
      *
      * @return callable
      */
-    protected static function getMethodInstance(string $extension): callable
+    final protected static function getMethodInstance(string $extension): callable
     {
         if (!static::isConstructorAccessible($extension)) {
             /** @var ExtensionMethod $extension */
@@ -58,7 +58,7 @@ abstract class ExtensionMethodLoader
      *
      * @return bool
      */
-    protected static function isConstructorAccessible(string $class): bool
+    final protected static function isConstructorAccessible(string $class): bool
     {
         try {
             do {
@@ -80,7 +80,7 @@ abstract class ExtensionMethodLoader
      *
      * @return void
      */
-    protected static function guardInvalidExtensionMethodClass(string $extension): void
+    final protected static function guardInvalidExtensionMethodClass(string $extension): void
     {
         if (!is_subclass_of($extension, ExtensionMethod::class)) {
             throw new ClassNotExtensionMethodException(
@@ -99,7 +99,7 @@ abstract class ExtensionMethodLoader
      *
      * @return callable
      */
-    public static function load($extension): callable
+    final public static function load($extension): callable
     {
         $extension = self::prepareExtensionMethod($extension);
 
