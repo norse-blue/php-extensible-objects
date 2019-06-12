@@ -49,8 +49,8 @@ class ExtensionMethodTest extends TestCase
         $this->assertCount(2, $extensions);
         $this->assertArrayHasKey('add_to_private', $extensions);
         $this->assertArrayHasKey('subtract_from_protected', $extensions);
-        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']);
-        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $extensions['subtract_from_protected']);
+        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']['method']);
+        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $extensions['subtract_from_protected']['method']);
     }
 
     /** @test */
@@ -129,16 +129,16 @@ class ExtensionMethodTest extends TestCase
         $this->assertCount(1, $extensions_excluding_parent);
         $this->assertCount(2, $parent_extensions);
 
-        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']);
-        $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions['subtract_from_protected']);
+        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']['method']);
+        $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions['subtract_from_protected']['method']);
 
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
-            $extensions_excluding_parent['subtract_from_protected']
+            $extensions_excluding_parent['subtract_from_protected']['method']
         );
 
-        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $parent_extensions['add_to_private']);
-        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $parent_extensions['subtract_from_protected']);
+        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $parent_extensions['add_to_private']['method']);
+        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $parent_extensions['subtract_from_protected']['method']);
     }
 
     /** @test */
@@ -165,7 +165,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_override_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('guarded'));
-        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class);
+        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('guarded'));
         $this->assertTrue(GuardedObject::isGuardedExtensionMethod('guarded'));
         $this->assertContains('guarded', GuardedObject::getGuardedExtensionMethods());
@@ -184,7 +184,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_unregister_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('unregisterable'));
-        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class);
+        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('unregisterable'));
         $this->assertTrue(GuardedObject::isGuardedExtensionMethod('unregisterable'));
         $this->assertContains('unregisterable', GuardedObject::getGuardedExtensionMethods());

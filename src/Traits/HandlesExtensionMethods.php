@@ -20,7 +20,8 @@ trait HandlesExtensionMethods
     /** @var array<string, callable> The registered extensions. */
     protected static $extensions = [];
 
-    /** @protected @static @var array<string> $guarded_extensions The guarded extension methods. */
+    /** @var bool Whether to guard all extensions by default or not. */
+    protected static $guard_extensions = false;
 
     /**
      * Register extension method.
@@ -29,10 +30,11 @@ trait HandlesExtensionMethods
      *
      * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
+     * @param bool $guard Whether to guard the extension method being registered or not.
      *
      * @return void
      */
-    final public static function registerExtensionMethod($names, $extension): void
+    final public static function registerExtensionMethod($names, $extension, bool $guard = false): void
     {
         $names = is_string($names) ? [$names] : $names;
         $extension = ExtensionMethodLoader::load($extension);
@@ -44,7 +46,10 @@ trait HandlesExtensionMethods
                 );
             }
 
-            static::$extensions[static::class][$name] = $extension;
+            static::$extensions[static::class][$name] = [
+                'guarded' => static::$guard_extensions || $guard,
+                'method' => $extension,
+            ];
         }
     }
 
@@ -96,11 +101,7 @@ trait HandlesExtensionMethods
      */
     final public static function isGuardedExtensionMethod(string $name): bool
     {
-        if (!in_array($name, static::$guarded_extensions ?? []) || !static::hasExtensionMethod($name)) {
-            return false;
-        }
-
-        return true;
+        return in_array($name, static::getGuardedExtensionMethods(), true);
     }
 
     /**
@@ -127,7 +128,14 @@ trait HandlesExtensionMethods
      */
     final public static function getGuardedExtensionMethods(): array
     {
-        return static::$guarded_extensions ?? [];
+        $guarded = [];
+        foreach (static::$extensions[static::class] ?? [] as $extension => $features) {
+            if ($features['guarded'] === true) {
+                $guarded[] = $extension;
+            }
+        }
+
+        return $guarded;
     }
 
     /**
@@ -167,7 +175,7 @@ trait HandlesExtensionMethods
         }
 
         $callable = static::getExtensionMethods()[$name];
-        $extension = Closure::fromCallable($callable())
+        $extension = Closure::fromCallable($callable['method']())
             ->bindTo($this, static::class);
 
         return $extension(...$parameters);
