@@ -36,7 +36,6 @@ class ExtensionMethodTest extends TestCase
         ChildObject::unregisterExtensionMethod('subtract_from_protected');
     }
 
-
     /** @test */
     public function it_checks_registered_extension_methods()
     {
@@ -50,13 +49,16 @@ class ExtensionMethodTest extends TestCase
         $this->assertArrayHasKey('add_to_private', $extensions);
         $this->assertArrayHasKey('subtract_from_protected', $extensions);
         $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']['method']);
-        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $extensions['subtract_from_protected']['method']);
+        $this->assertInstanceOf(
+            DynamicMethodUsingProtectedValue::class,
+            $extensions['subtract_from_protected']['method']
+        );
     }
 
     /** @test */
     public function it_executes_method_using_private_property_correctly()
     {
-        $obj = new SimpleObject;
+        $obj = new SimpleObject();
 
         $result = $obj->add_to_private(3);
 
@@ -66,7 +68,7 @@ class ExtensionMethodTest extends TestCase
     /** @test */
     public function it_executes_method_using_protected_property_correctly()
     {
-        $obj = new SimpleObject;
+        $obj = new SimpleObject();
 
         $result = $obj->subtract_from_protected(3);
 
@@ -80,6 +82,7 @@ class ExtensionMethodTest extends TestCase
             SimpleObject::registerExtensionMethod('foo', FooObject::class);
         } catch (Exception $e) {
             $this->assertInstanceOf(ClassNotExtensionMethodException::class, $e);
+
             return;
         }
 
@@ -93,6 +96,7 @@ class ExtensionMethodTest extends TestCase
             SimpleObject::registerExtensionMethod('foo', 'not callable');
         } catch (Exception $e) {
             $this->assertInstanceOf(ExtensionNotCallableException::class, $e);
+
             return;
         }
 
@@ -102,12 +106,13 @@ class ExtensionMethodTest extends TestCase
     /** @test */
     public function it_throws_exception_when_calling_not_existing_extension_method()
     {
-        $obj = new SimpleObject;
+        $obj = new SimpleObject();
 
         try {
             $obj->nonexistent();
         } catch (Exception $e) {
             $this->assertInstanceOf(BadMethodCallException::class, $e);
+
             return;
         }
 
@@ -129,22 +134,34 @@ class ExtensionMethodTest extends TestCase
         $this->assertCount(1, $extensions_excluding_parent);
         $this->assertCount(2, $parent_extensions);
 
-        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']['method']);
-        $this->assertInstanceOf(ChildExtensionMethodReplacement::class, $extensions['subtract_from_protected']['method']);
+        $this->assertInstanceOf(
+            DynamicMethodUsingPrivateValue::class,
+            $extensions['add_to_private']['method']
+        );
+        $this->assertInstanceOf(
+            ChildExtensionMethodReplacement::class,
+            $extensions['subtract_from_protected']['method']
+        );
 
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
             $extensions_excluding_parent['subtract_from_protected']['method']
         );
 
-        $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $parent_extensions['add_to_private']['method']);
-        $this->assertInstanceOf(DynamicMethodUsingProtectedValue::class, $parent_extensions['subtract_from_protected']['method']);
+        $this->assertInstanceOf(
+            DynamicMethodUsingPrivateValue::class,
+            $parent_extensions['add_to_private']['method']
+        );
+        $this->assertInstanceOf(
+            DynamicMethodUsingProtectedValue::class,
+            $parent_extensions['subtract_from_protected']['method']
+        );
     }
 
     /** @test */
     public function child_executes_parent_extension_method()
     {
-        $obj = new ChildObject;
+        $obj = new ChildObject();
 
         $result = $obj->add_to_private(3);
 
@@ -154,7 +171,7 @@ class ExtensionMethodTest extends TestCase
     /** @test */
     public function child_executes_own_extension_method()
     {
-        $obj = new ChildObject;
+        $obj = new ChildObject();
 
         $result = $obj->subtract_from_protected(3);
 
@@ -174,6 +191,7 @@ class ExtensionMethodTest extends TestCase
             GuardedObject::registerExtensionMethod('guarded', OtherExtensionMethod::class);
         } catch (Exception $e) {
             $this->assertInstanceOf(GuardedExtensionMethodException::class, $e);
+
             return;
         }
 
@@ -193,6 +211,7 @@ class ExtensionMethodTest extends TestCase
             GuardedObject::unregisterExtensionMethod('unregisterable');
         } catch (Exception $e) {
             $this->assertInstanceOf(GuardedExtensionMethodException::class, $e);
+
             return;
         }
 

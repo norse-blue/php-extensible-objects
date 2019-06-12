@@ -8,27 +8,11 @@ use NorseBlue\ExtensibleObjects\Contracts\Creatable;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
+use ReflectionClass;
+use ReflectionException;
 
 abstract class ExtensionMethodLoader
 {
-    /**
-     * Load the extension method.
-     *
-     * @param string|callable $extension
-     *
-     * @return callable
-     */
-    public static function load($extension): callable
-    {
-        $extension = self::prepareExtensionMethod($extension);
-
-        if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
-        }
-
-        return $extension;
-    }
-
     /**
      * Get the extension method closure.
      *
@@ -41,16 +25,52 @@ abstract class ExtensionMethodLoader
         if (is_string($extension) && class_exists($extension)) {
             self::guardInvalidExtensionMethodClass($extension);
 
+            return static::getMethodInstance($extension);
+        }
+
+        return $extension;
+    }
+
+    /**
+     * Get the extension method instance.
+     *
+     * @param string $extension
+     *
+     * @return callable
+     */
+    protected static function getMethodInstance(string $extension): callable
+    {
+        if (!static::isConstructorAccessible($extension)) {
             /** @var ExtensionMethod $extension */
             if (is_subclass_of($extension, Creatable::class)) {
                 /** @var Creatable $extension */
                 return $extension::create();
             }
-
-            return new $extension();
         }
 
-        return $extension;
+        return new $extension();
+    }
+
+    /**
+     * Check if the class constructor is accessible.
+     *
+     * @param string $class
+     *
+     * @return bool
+     */
+    protected static function isConstructorAccessible(string $class): bool
+    {
+        try {
+            do {
+                $reflection = new ReflectionClass($class);
+                $constructor = $reflection->getConstructor();
+                $class = $reflection->getParentClass();
+            } while ($constructor === null && $class !== null);
+        } catch (ReflectionException $exception) {
+            return false;
+        }
+
+        return $constructor === null ? false : $constructor->isPublic();
     }
 
     /**
@@ -70,5 +90,23 @@ abstract class ExtensionMethodLoader
                 )
             );
         }
+    }
+
+    /**
+     * Load the extension method.
+     *
+     * @param string|callable $extension
+     *
+     * @return callable
+     */
+    public static function load($extension): callable
+    {
+        $extension = self::prepareExtensionMethod($extension);
+
+        if (!is_callable($extension)) {
+            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
+        }
+
+        return $extension;
     }
 }
