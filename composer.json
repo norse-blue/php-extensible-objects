@@ -1,7 +1,11 @@
 {
   "name": "norse-blue/extensible-objects",
   "description": "Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects.",
-  "keywords": ["extension", "objects", "methods"],
+  "keywords": [
+    "extension",
+    "objects",
+    "methods"
+  ],
   "homepage": "https://norse.blue/open-source/php-extensible-objects",
   "license": "MIT",
   "support": {
@@ -22,7 +26,8 @@
     "optimize-autoloader": true
   },
   "require": {
-    "php": "^7.3"
+    "php": "^7.3",
+    "norse-blue/handy-properties": "dev-master"
   },
   "require-dev": {
     "nunomaduro/phpinsights": "^1.5",

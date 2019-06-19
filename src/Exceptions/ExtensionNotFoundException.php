@@ -6,6 +6,6 @@ namespace NorseBlue\ExtensibleObjects\Exceptions;
 
 use RuntimeException;
 
-final class ExtensionNotCallableException extends RuntimeException
+final class ExtensionNotFoundException extends RuntimeException
 {
 }

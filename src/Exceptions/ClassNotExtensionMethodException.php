@@ -6,12 +6,6 @@ namespace NorseBlue\ExtensibleObjects\Exceptions;
 
 use RuntimeException;
 
-/**
- * Class ClassNotExtensionMethodException
- *
- * @package NorseBlue\ExtensibleObjects\Exceptions
- */
 final class ClassNotExtensionMethodException extends RuntimeException
 {
-
 }

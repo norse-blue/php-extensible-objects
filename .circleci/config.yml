@@ -1,85 +1,85 @@
 version: 2.1
 
 executors:
-    php7_3:
-        docker:
-            - image: circleci/php:7.3
+  php7_3:
+    docker:
+      - image: circleci/php:7.3
 
 commands:
-    prepare:
-        steps:
-            - run: sudo apt update
-            - run: sudo apt full-upgrade
-            - run: sudo composer self-update
-            - checkout
-    install_php_dependencies:
-        parameters:
-            composer_flags:
-                type: string
-                default: ""
-        steps:
-            - run: composer update << parameters.composer_flags >> --no-interaction --prefer-source
-    prepare_coverage:
-        steps:
-            - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            - run: chmod +x cc-test-reporter
-            - run: ./cc-test-reporter before-build
-    run_tests:
-        steps:
-            - run:
-                command: |
-                    set +eo pipefail    # Do not fail the build if this command fails
-                    composer style-check | exit 0
-            - run:
-                command: |
-                    set +eo pipefail    # Do not fail the build if this command fails
-                    composer analyse | exit 0
-            - run:
-                command: |
-                    set +eo pipefail    # Do not fail the build if this command fails
-                    composer insights | exit 0
-            - run: composer test
-    run_tests_coverage:
-        steps:
-            - run:
-                command: |
-                  set +eo pipefail    # Do not fail the build if this command fails
-                  composer style-check | exit 0
-            - run:
-                command: |
-                  set +eo pipefail    # Do not fail the build if this command fails
-                  composer analyse | exit 0
-            - run:
-                command: |
-                  set +eo pipefail    # Do not fail the build if this command fails
-                  composer insights | exit 0
-            - run: composer test-coverage
-            - run: ./cc-test-reporter format-coverage --input-type clover --output build/code-climate-coverage.json build/coverage.xml
-            - store_artifacts:
-                  path: build
-    upload_coverage:
-        steps:
-            - run: ./cc-test-reporter upload-coverage --input build/code-climate-coverage.json
+  prepare:
+    steps:
+      - run: sudo apt update
+      - run: sudo apt full-upgrade
+      - run: sudo composer self-update
+      - checkout
+  install_php_dependencies:
+    parameters:
+      composer_flags:
+        type: string
+        default: ""
+    steps:
+      - run: composer update << parameters.composer_flags >> --no-interaction --prefer-source
+  prepare_coverage:
+    steps:
+      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      - run: chmod +x cc-test-reporter
+      - run: ./cc-test-reporter before-build
+  run_tests:
+    steps:
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer style-check | exit 0
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer analyse | exit 0
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer insights | exit 0
+      - run: composer test
+  run_tests_coverage:
+    steps:
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer style-check | exit 0
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer analyse | exit 0
+      - run:
+          command: |
+            set +eo pipefail    # Do not fail the build if this command fails
+            composer insights | exit 0
+      - run: composer test-coverage
+      - run: ./cc-test-reporter format-coverage --input-type clover --output build/code-climate-coverage.json build/coverage.xml
+      - store_artifacts:
+          path: build
+  upload_coverage:
+    steps:
+      - run: ./cc-test-reporter upload-coverage --input build/code-climate-coverage.json
 jobs:
-    php7_3:
-        executor: php7_3
-        steps:
-            - prepare
-            - install_php_dependencies
-            - prepare_coverage
-            - run_tests_coverage
-            - upload_coverage
-    php7_3-prefer-lowest:
-        executor: php7_3
-        steps:
-            - prepare
-            - install_php_dependencies:
-                composer_flags: --prefer-lowest
-            - run_tests
+  php7_3:
+    executor: php7_3
+    steps:
+      - prepare
+      - install_php_dependencies
+      - prepare_coverage
+      - run_tests_coverage
+      - upload_coverage
+  php7_3-prefer-lowest:
+    executor: php7_3
+    steps:
+      - prepare
+      - install_php_dependencies:
+          composer_flags: --prefer-lowest
+      - run_tests
 
 workflows:
-    version: 2
-    build:
-        jobs:
-            - php7_3
-            - php7_3-prefer-lowest
+  version: 2
+  build:
+    jobs:
+      - php7_3
+      - php7_3-prefer-lowest

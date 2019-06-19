@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace NorseBlue\ExtensibleObjects\Extensions;
+
+use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
+use NorseBlue\ExtensibleObjects\Extension;
+use NorseBlue\ExtensibleObjects\Extensions\Resolver\ExtensionCallableResolver;
+use NorseBlue\ExtensibleObjects\Guards\InvalidExtensionGuard;
+
+final class ExtensionResolver
+{
+    // @codeCoverageIgnoreStart
+    private function __construct()
+    {
+    }
+    // @codeCoverageIgnoreEnd
+
+    /**
+     * Resolve the extension method.
+     *
+     * @param string|callable $extension
+     * @param bool $guard
+     *
+     * @return Extension
+     *
+     * @throws \ReflectionException
+     */
+    public static function resolve($extension, bool $guard): Extension
+    {
+        if (is_string($extension) && class_exists($extension)) {
+            InvalidExtensionGuard::enforce($extension);
+
+            $extension = ExtensionCallableResolver::resolve($extension);
+        }
+
+        if (!is_callable($extension)) {
+            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
+        }
+
+        return new Extension($extension, $guard);
+    }
+}
