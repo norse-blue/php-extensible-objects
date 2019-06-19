@@ -4,24 +4,40 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects\Traits;
 
-use BadMethodCallException;
-use Closure;
-use NorseBlue\ExtensibleObjects\Contracts\Extensible;
-use NorseBlue\ExtensibleObjects\Exceptions\GuardedExtensionMethodException;
-use NorseBlue\ExtensibleObjects\Support\ExtensionMethodLoader;
+use NorseBlue\ExtensibleObjects\Extensions\ExtensionResolver;
+use NorseBlue\ExtensibleObjects\Guards\MethodDefinedInClassGuard;
 
-/**
- * Trait HandlesExtensionMethods
- *
- * @package NorseBlue\ExtensibleObjects\Traits
- */
 trait HandlesExtensionMethods
 {
-    /** @var array<string, callable> The registered extensions. */
-    protected static $extensions = [];
+    use InteractsWithRegistry;
 
     /** @var bool Whether to guard all extensions by default or not. */
     protected static $guard_extensions = false;
+
+    /**
+     * Get the registered extension methods.
+     *
+     * @param bool $exclude_parent If true, excludes parent extension methods.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    final public static function getExtensionMethods(bool $exclude_parent = false): array
+    {
+        return static::getClassExtensions($exclude_parent)->toArray();
+    }
+
+    /**
+     * Check if the extension method is registered.
+     *
+     * @param string $name The name of the extension method.
+     * @param bool $exclude_parent If true, excludes parent extension methods.
+     *
+     * @return bool True if the extension is registered, false otherwise.
+     */
+    final public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
+    {
+        return static::getClassExtensions($exclude_parent)->has($name);
+    }
 
     /**
      * Register extension method.
@@ -32,24 +48,17 @@ trait HandlesExtensionMethods
      * @param string|callable $extension The extension method class name or callable.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
      *
-     * @return void
+     * @throws \ReflectionException
      */
     final public static function registerExtensionMethod($names, $extension, ?bool $guard = null): void
     {
+        $guard = $guard === null ? (bool)static::$guard_extensions : $guard;
+        $extension = ExtensionResolver::resolve($extension, $guard);
+
         $names = is_string($names) ? [$names] : $names;
-        $extension = ExtensionMethodLoader::load($extension);
-
         foreach ($names as $name) {
-            if (static::isGuardedExtensionMethod($name)) {
-                throw new GuardedExtensionMethodException(
-                    "The extension method '$name' is guarded and cannot be overridden."
-                );
-            }
-
-            static::$extensions[static::class][$name] = [
-                'guarded' => $guard === null ? static::$guard_extensions : $guard,
-                'method' => $extension,
-            ];
+            MethodDefinedInClassGuard::enforce(static::class, $name);
+            static::getExtensionRegistry()->add(static::class, $name, $extension);
         }
     }
 
@@ -63,123 +72,23 @@ trait HandlesExtensionMethods
     final public static function unregisterExtensionMethod($names): void
     {
         $names = is_string($names) ? [$names] : $names;
-
         foreach ($names as $name) {
-            if (static::isGuardedExtensionMethod($name)) {
-                throw new GuardedExtensionMethodException(
-                    "The extension method '$name' is guarded and cannot be unset."
-                );
-            }
-
-            unset(static::$extensions[static::class][$name]);
+            static::getExtensionRegistry()->remove(static::class, $name);
         }
     }
 
     /**
-     * Check if the extension method is registered.
+     * Handle calls to extension methods.
      *
-     * @param string $name The name of the extension method.
-     * @param bool $exclude_parent If true, excludes parent extension methods.
-     *
-     * @return bool true if the extension is registered, false otherwise.
-     */
-    final public static function hasExtensionMethod(string $name, bool $exclude_parent = false): bool
-    {
-        if (isset(static::$extensions[static::class][$name])) {
-            return true;
-        }
-
-        return $exclude_parent ? false : isset(static::getParentExtensionMethods()[$name]);
-    }
-
-    /**
-     * Check if the extension method is guarded.
-     *
-     * @param string $name The name of the extension method.
-     *
-     * @return bool
-     */
-    final public static function isGuardedExtensionMethod(string $name): bool
-    {
-        return in_array($name, static::getGuardedExtensionMethods(), true);
-    }
-
-    /**
-     * Get the registered extension methods.
-     *
-     * @param bool $exclude_parent If true, excludes parent extension methods.
-     *
-     * @return array<string, callable>
-     */
-    final public static function getExtensionMethods(bool $exclude_parent = false): array
-    {
-        $base_extensions = [];
-        if (!$exclude_parent) {
-            $base_extensions = static::getParentExtensionMethods();
-        }
-
-        return array_merge($base_extensions, static::$extensions[static::class] ?? []);
-    }
-
-    /**
-     * Get the guarded extension methods.
-     *
-     * @return array<string>
-     */
-    final public static function getGuardedExtensionMethods(): array
-    {
-        $guarded = [];
-        foreach (static::$extensions[static::class] ?? [] as $extension => $features) {
-            if ($features['guarded'] === true) {
-                $guarded[] = $extension;
-            }
-        }
-
-        return $guarded;
-    }
-
-    /**
-     * Get the parent extension methods.
-     *
-     * @return array<string, callable>
-     */
-    final public static function getParentExtensionMethods(): array
-    {
-        $parent = get_parent_class(static::class);
-        if ($parent === false || !is_subclass_of($parent, Extensible::class)) {
-            return [];
-        }
-
-        /** @var Extensible $parent */
-        return $parent::getExtensionMethods();
-    }
-
-    //region Magic Methods =====
-
-    /**
-     * Handle calls to dynamic methods.
-     *
-     * @param string $name The method name.
+     * @param string $name The extension name.
      * @param array<mixed> $parameters The method parameters.
      *
      * @return mixed
-     *
-     * @throws \BadMethodCallException
      */
     final public function __call(string $name, array $parameters)
     {
-        if (!static::hasExtensionMethod($name)) {
-            throw new BadMethodCallException(
-                sprintf('Extension method %s::%s does not exist.', static::class, $name)
-            );
-        }
+        $extension = static::getExtension($name);
 
-        $callable = static::getExtensionMethods()[$name];
-        $extension = Closure::fromCallable($callable['method']())
-            ->bindTo($this, static::class);
-
-        return $extension(...$parameters);
+        return $extension->execute($this, static::class, $parameters);
     }
-
-    //endregion Magic Methods
 }

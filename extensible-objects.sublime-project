@@ -1,9 +1,8 @@
 {
-    "name": "PHP Extensible Objects",
-	"folders":
-	[
-		{
-			"path": "."
-		}
-	]
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ]
 }
