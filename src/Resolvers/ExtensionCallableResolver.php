@@ -5,35 +5,12 @@ declare(strict_types=1);
 namespace NorseBlue\ExtensibleObjects\Resolvers;
 
 use NorseBlue\ExtensibleObjects\Contracts\Creatable;
-use ReflectionClass;
-use ReflectionMethod;
 
 final class ExtensionCallableResolver
 {
     /** @codeCoverageIgnore */
     private function __construct()
     {
-    }
-
-    /**
-     * Check if the class constructor is accessible.
-     *
-     * @param string $class
-     *
-     * @return bool
-     *
-     * @throws \ReflectionException
-     */
-    protected static function isConstructorAccessible(string $class): bool
-    {
-        $methods = array_map(
-            static function ($item) {
-                return $item->name;
-            },
-            (new ReflectionClass($class))->getMethods(ReflectionMethod::IS_PUBLIC)
-        );
-
-        return in_array('__construct', $methods);
     }
 
     /**
@@ -47,7 +24,7 @@ final class ExtensionCallableResolver
      */
     public static function resolve(string $extension): callable
     {
-        if (!self::isConstructorAccessible($extension)) {
+        if (!ClassConstructorAccessibleResolver::resolve($extension)) {
             if (is_subclass_of($extension, Creatable::class)) {
                 /** @var Creatable $extension */
                 return $extension::create();
