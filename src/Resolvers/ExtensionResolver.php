@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NorseBlue\ExtensibleObjects\Extensions;
+namespace NorseBlue\ExtensibleObjects\Resolvers;
 
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 use NorseBlue\ExtensibleObjects\Extension;
-use NorseBlue\ExtensibleObjects\Extensions\Resolver\ExtensionCallableResolver;
 use NorseBlue\ExtensibleObjects\Guards\InvalidExtensionGuard;
 
 final class ExtensionResolver

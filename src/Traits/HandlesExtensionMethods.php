@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects\Traits;
 
-use NorseBlue\ExtensibleObjects\Extensions\ExtensionResolver;
 use NorseBlue\ExtensibleObjects\Guards\MethodDefinedInClassGuard;
+use NorseBlue\ExtensibleObjects\Resolvers\ExtensionResolver;
 
 trait HandlesExtensionMethods
 {

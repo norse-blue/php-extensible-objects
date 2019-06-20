@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NorseBlue\ExtensibleObjects\Extensions\Resolver;
+namespace NorseBlue\ExtensibleObjects\Resolvers;
 
 use NorseBlue\ExtensibleObjects\Contracts\Creatable;
 use ReflectionClass;
@@ -10,11 +10,10 @@ use ReflectionMethod;
 
 final class ExtensionCallableResolver
 {
-    // @codeCoverageIgnoreStart
+    /** @codeCoverageIgnore */
     private function __construct()
     {
     }
-    // @codeCoverageIgnoreEnd
 
     /**
      * Check if the class constructor is accessible.
