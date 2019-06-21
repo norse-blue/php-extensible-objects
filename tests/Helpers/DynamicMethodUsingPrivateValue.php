@@ -4,13 +4,6 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-/**
- * Class DynamicMethodUsingPrivateValue
- *
- * @package NorseBlue\ExtensibleObjects\Tests\Helpers
- *
- * @extends SimpleObject
- */
 class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMethod
 {
     /**
