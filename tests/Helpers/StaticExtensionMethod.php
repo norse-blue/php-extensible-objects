@@ -4,7 +4,7 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-class StaticExtensionMethod extends SimpleObject implements ExtensionMethod
+class StaticExtensionMethod implements ExtensionMethod
 {
     /**
      * @return static callable(int $operand)

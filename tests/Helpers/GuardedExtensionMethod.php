@@ -4,7 +4,7 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-class GuardedExtensionMethod extends GuardedObject implements ExtensionMethod
+class GuardedExtensionMethod implements ExtensionMethod
 {
     public function __invoke(): callable
     {
