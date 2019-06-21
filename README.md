@@ -102,8 +102,9 @@ method (kind of like aliases, but they are registered independently, so they are
 
 The extension method will be run in the class context, as it were declared inside the class. Being so, you have access
 to everything inside the base class (even private properties and methods). The extension method does not have to inherit
-from the base class, but doing so will help your IDE with auto completion and static analysis if using some class
-methods and properties.
+from the base class, in fact it is encouraged not to do so, as this would in some cases prevent the extension from being
+ created because it would inherit the creation restrictions of the base class. Although it would be great, IDE
+ detection and auto-completion is not yet supported as there is no syntax to let it know it's _extending_ the base class.
 
 To unregister the extension method you can do:
 ```php
