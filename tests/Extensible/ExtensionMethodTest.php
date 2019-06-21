@@ -18,6 +18,7 @@ use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\OtherExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\SimpleObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\StaticExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\TestCase;
 
 class ExtensionMethodTest extends TestCase
@@ -26,6 +27,7 @@ class ExtensionMethodTest extends TestCase
     {
         SimpleObject::registerExtensionMethod('add_to_private', DynamicMethodUsingPrivateValue::class);
         SimpleObject::registerExtensionMethod('subtract_from_protected', DynamicMethodUsingProtectedValue::class);
+        SimpleObject::registerExtensionMethod('static_extension', StaticExtensionMethod::class, true);
         ChildObject::registerExtensionMethod('subtract_from_protected', ChildExtensionMethodReplacement::class);
     }
 
@@ -40,7 +42,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_override_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('guarded'));
-        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, true);
+        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, false, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('guarded'));
 
         try {
@@ -58,7 +60,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_unregister_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('unregisterable'));
-        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, true);
+        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, false, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('unregisterable'));
 
         try {
@@ -102,17 +104,24 @@ class ExtensionMethodTest extends TestCase
         $extensions = ChildObject::getExtensionMethods();
         $extensions_excluding_parent = ChildObject::getExtensionMethods(true);
 
-        $this->assertCount(2, $extensions);
+        $this->assertCount(3, $extensions);
         $this->assertCount(1, $extensions_excluding_parent);
 
         $this->assertInstanceOf(
             DynamicMethodUsingPrivateValue::class,
             $extensions['add_to_private']['method']
         );
+        $this->assertFalse($extensions['add_to_private']['static']);
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
             $extensions['subtract_from_protected']['method']
         );
+        $this->assertFalse($extensions['subtract_from_protected']['static']);
+        $this->assertInstanceOf(
+            StaticExtensionMethod::class,
+            $extensions['static_extension']['method']
+        );
+        $this->assertTrue($extensions['static_extension']['static']);
 
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
@@ -140,9 +149,10 @@ class ExtensionMethodTest extends TestCase
 
         $extensions = SimpleObject::getExtensionMethods();
 
-        $this->assertCount(2, $extensions);
+        $this->assertCount(3, $extensions);
         $this->assertArrayHasKey('add_to_private', $extensions);
         $this->assertArrayHasKey('subtract_from_protected', $extensions);
+        $this->assertArrayHasKey('static_extension', $extensions);
         $this->assertInstanceOf(DynamicMethodUsingPrivateValue::class, $extensions['add_to_private']['method']);
         $this->assertInstanceOf(
             DynamicMethodUsingProtectedValue::class,
@@ -212,5 +222,15 @@ class ExtensionMethodTest extends TestCase
         }
 
         $this->fail(ExtensionNotCallableException::class . ' was not thrown.');
+    }
+
+    /** @test */
+    public function static_extension_executes_As_expected()
+    {
+        $obj = new SimpleObject();
+
+        $result = $obj::static_extension(3);
+
+        $this->assertEquals(9, $result);
     }
 }

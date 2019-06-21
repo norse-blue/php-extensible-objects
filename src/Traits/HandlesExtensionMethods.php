@@ -15,6 +15,21 @@ trait HandlesExtensionMethods
     protected static $guard_extensions = false;
 
     /**
+     * Handle calls to extension methods.
+     *
+     * @param string $name The extension name.
+     * @param array<mixed> $parameters The method parameters.
+     *
+     * @return mixed
+     */
+    final public static function __callStatic(string $name, array $parameters)
+    {
+        $extension = static::getExtension($name);
+
+        return $extension->execute(static::class, $parameters);
+    }
+
+    /**
      * Get the registered extension methods.
      *
      * @param bool $exclude_parent If true, excludes parent extension methods.
@@ -46,14 +61,19 @@ trait HandlesExtensionMethods
      *
      * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
+     * @param bool $static Whether the extension should be called statically or not.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
      *
      * @throws \ReflectionException
      */
-    final public static function registerExtensionMethod($names, $extension, ?bool $guard = null): void
-    {
+    final public static function registerExtensionMethod(
+        $names,
+        $extension,
+        bool $static = false,
+        ?bool $guard = null
+    ): void {
         $guard = $guard === null ? (bool)static::$guard_extensions : $guard;
-        $extension = ExtensionResolver::resolve($extension, $guard);
+        $extension = ExtensionResolver::resolve($extension, $static, $guard);
 
         $names = is_string($names) ? [$names] : $names;
         foreach ($names as $name) {
@@ -89,6 +109,6 @@ trait HandlesExtensionMethods
     {
         $extension = static::getExtension($name);
 
-        return $extension->execute($this, static::class, $parameters);
+        return $extension->execute(static::class, $parameters, $this);
     }
 }

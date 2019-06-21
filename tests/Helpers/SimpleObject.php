@@ -5,6 +5,11 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
 
+/**
+ * @method int add_to_private(int $operand)
+ * @method int subtract_from_protected(int $operand)
+ * @method int static_extension(int $operand)
+ */
 class SimpleObject implements Extensible
 {
     use HandlesExtensionMethods;

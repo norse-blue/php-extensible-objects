@@ -39,7 +39,11 @@ final class ExtensionsCollection
         }
 
         if (is_array($extension)) {
-            $extension = new Extension($extension['method'], $extension['guarded'] ?? false);
+            $extension = new Extension(
+                $extension['method'],
+                $extension['guarded'] ?? false,
+                $extension['static'] ?? false,
+            );
         }
 
         $this->items[$name] = $extension;
