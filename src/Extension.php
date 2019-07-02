@@ -67,7 +67,7 @@ final class Extension
     {
         $method = $this->method;
 
-        if ($this->static) {
+        if ($this->is_static) {
             $caller = null;
         }
 
