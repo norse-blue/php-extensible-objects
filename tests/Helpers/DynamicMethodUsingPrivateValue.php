@@ -4,7 +4,7 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-class DynamicMethodUsingPrivateValue implements ExtensionMethod
+class DynamicMethodUsingPrivateValue extends SimpleObject implements ExtensionMethod
 {
     /**
      * @return callable(int $operand)

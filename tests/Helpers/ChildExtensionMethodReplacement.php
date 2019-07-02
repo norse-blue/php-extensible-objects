@@ -4,7 +4,7 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-class ChildExtensionMethodReplacement implements ExtensionMethod
+class ChildExtensionMethodReplacement extends ChildObject implements ExtensionMethod
 {
     /**
      * @return callable(int $operand)
