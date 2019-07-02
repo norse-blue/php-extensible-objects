@@ -236,7 +236,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function static_extension_executes_As_expected()
+    public function static_extension_executes_as_expected()
     {
         $obj = new SimpleObject();
 
