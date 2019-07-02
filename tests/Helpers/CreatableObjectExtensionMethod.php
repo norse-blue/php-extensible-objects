@@ -4,8 +4,9 @@ namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 
-class CreatableObjectExtensionMethod implements ExtensionMethod
+class CreatableObjectExtensionMethod extends CreatableObject implements ExtensionMethod
 {
+
     public function __invoke(): callable
     {
         return function (): string {

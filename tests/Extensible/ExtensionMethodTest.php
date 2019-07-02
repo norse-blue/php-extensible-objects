@@ -7,6 +7,7 @@ use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionGuardedException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotFoundException;
+use NorseBlue\ExtensibleObjects\Exceptions\MethodDefinedInClassException;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildExtensionMethodReplacement;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\ChildObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\CreatableObject;
@@ -243,5 +244,19 @@ class ExtensionMethodTest extends TestCase
         $result = $obj::static_extension(3);
 
         $this->assertEquals(9, $result);
+    }
+
+    /** @test */
+    public function it_throws_exception_when_extension_method_name_already_defined_as_class_function()
+    {
+        try {
+            SimpleObject::registerExtensionMethod('definedMethod', function() { return 'already defined'; });
+        } catch (Exception $e) {
+            $this->assertInstanceOf(MethodDefinedInClassException::class, $e);
+
+            return;
+        }
+
+        $this->fail(MethodDefinedInClassException::class . ' was not thrown.');
     }
 }

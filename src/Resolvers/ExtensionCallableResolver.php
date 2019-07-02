@@ -24,11 +24,12 @@ final class ExtensionCallableResolver
      */
     public static function resolve(string $extension): callable
     {
-        if (!ClassConstructorAccessibleResolver::resolve($extension)) {
-            if (is_subclass_of($extension, Creatable::class)) {
-                /** @var Creatable $extension */
-                return $extension::create();
-            }
+        if (
+            !ClassConstructorAccessibleResolver::resolve($extension)
+            && is_subclass_of($extension, Creatable::class)
+        ) {
+            /** @var Creatable $extension */
+            return $extension::create();
         }
 
         return new $extension();

@@ -63,4 +63,14 @@ class SimpleObject implements Extensible
     {
         $this->protected_value = $protected_value;
     }
+
+    /**
+     * @param int $num
+     *
+     * @return float|int
+     */
+    public function definedMethod(int $num = 0): int
+    {
+        return $num * $num;
+    }
 }

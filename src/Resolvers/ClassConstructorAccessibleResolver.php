@@ -27,6 +27,6 @@ final class ClassConstructorAccessibleResolver
             (new ReflectionClass($class))->getMethods(ReflectionMethod::IS_PUBLIC)
         );
 
-        return in_array('__construct', $methods);
+        return in_array('__construct', $methods, true);
     }
 }
