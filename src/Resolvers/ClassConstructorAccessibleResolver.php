@@ -13,20 +13,33 @@ final class ClassConstructorAccessibleResolver
      * Check if the class constructor is accessible.
      *
      * @param string $class
+     * @param int|null $requiredParams
+     * @param int|null $params
      *
      * @return bool
      *
      * @throws \ReflectionException
      */
-    public static function resolve(string $class): bool
+    public static function resolve(string $class, ?int &$requiredParams = 0, ?int &$params = 0): bool
     {
-        $methods = array_map(
-            static function ($item) {
-                return $item->name;
+        $reflection = new ReflectionClass($class);
+        $methods = array_reduce(
+            $reflection->getMethods(ReflectionMethod::IS_PUBLIC),
+            static function ($carry, $item) {
+                $carry[$item->name] = $item;
+
+                return $carry;
             },
-            (new ReflectionClass($class))->getMethods(ReflectionMethod::IS_PUBLIC)
+            []
         );
 
-        return in_array('__construct', $methods, true);
+        if (!in_array('__construct', array_keys($methods))) {
+            return false;
+        }
+
+        $requiredParams = $methods['__construct']->getNumberOfRequiredParameters();
+        $params = $methods['__construct']->getNumberOfParameters();
+
+        return true;
     }
 }
