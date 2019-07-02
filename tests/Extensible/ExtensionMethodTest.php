@@ -132,16 +132,6 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function grand_child_inherits_extensible_methods()
-    {
-        $obj = new GrandChildObject();
-
-        $result = $obj->subtract_from_protected(3);
-
-        $this->assertEquals(-6, $result);
-    }
-
-    /** @test */
     public function creatable_extensible_object()
     {
         $this->assertFalse(CreatableObject::hasExtensionMethod('creatable'));
@@ -150,6 +140,16 @@ class ExtensionMethodTest extends TestCase
 
         $creatable = CreatableObject::create();
         $this->assertEquals('created', $creatable->creatable());
+    }
+
+    /** @test */
+    public function grand_child_inherits_extensible_methods()
+    {
+        $obj = new GrandChildObject();
+
+        $result = $obj->subtract_from_protected(3);
+
+        $this->assertEquals(-6, $result);
     }
 
     /** @test */
@@ -237,20 +237,15 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function static_extension_executes_as_expected()
-    {
-        $obj = new SimpleObject();
-
-        $result = $obj::static_extension(3);
-
-        $this->assertEquals(9, $result);
-    }
-
-    /** @test */
     public function it_throws_exception_when_extension_method_name_already_defined_as_class_function()
     {
         try {
-            SimpleObject::registerExtensionMethod('definedMethod', function() { return 'already defined'; });
+            SimpleObject::registerExtensionMethod(
+                'definedMethod',
+                function () {
+                    return 'already defined';
+                }
+            );
         } catch (Exception $e) {
             $this->assertInstanceOf(MethodDefinedInClassException::class, $e);
 
@@ -258,5 +253,15 @@ class ExtensionMethodTest extends TestCase
         }
 
         $this->fail(MethodDefinedInClassException::class . ' was not thrown.');
+    }
+
+    /** @test */
+    public function static_extension_executes_as_expected()
+    {
+        $obj = new SimpleObject();
+
+        $result = $obj::static_extension(3);
+
+        $this->assertEquals(9, $result);
     }
 }
