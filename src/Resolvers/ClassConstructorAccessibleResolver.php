@@ -10,6 +10,28 @@ use ReflectionMethod;
 final class ClassConstructorAccessibleResolver
 {
     /**
+     * Gets the class methods.
+     *
+     * @param string $class
+     *
+     * @return array
+     *
+     * @throws \ReflectionException
+     */
+    protected static function getClassMethods(string $class): array
+    {
+        return array_reduce(
+            (new ReflectionClass($class))->getMethods(ReflectionMethod::IS_PUBLIC),
+            static function ($carry, $item) {
+                $carry[$item->name] = $item;
+
+                return $carry;
+            },
+            []
+        );
+    }
+
+    /**
      * Check if the class constructor is accessible.
      *
      * @param string $class
@@ -21,18 +43,9 @@ final class ClassConstructorAccessibleResolver
      */
     public static function resolve(string $class, ?array & $meta = null): bool
     {
-        $reflection = new ReflectionClass($class);
-        $methods = array_reduce(
-            $reflection->getMethods(ReflectionMethod::IS_PUBLIC),
-            static function ($carry, $item) {
-                $carry[$item->name] = $item;
-
-                return $carry;
-            },
-            []
-        );
-
         $meta = [];
+        $methods = self::getClassMethods($class);
+
         if (!in_array('__construct', array_keys($methods))) {
             return false;
         }
