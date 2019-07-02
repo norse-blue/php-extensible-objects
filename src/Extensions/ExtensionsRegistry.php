@@ -24,7 +24,7 @@ final class ExtensionsRegistry
      *
      * @return ExtensionsCollection
      */
-    protected function getClassExtensionsCollection(string $class): ExtensionsCollection
+    protected function getClassExtensions(string $class): ExtensionsCollection
     {
         if (!isset($this->items[$class])) {
             return $this->items[$class] = new ExtensionsCollection();
@@ -38,18 +38,16 @@ final class ExtensionsRegistry
      *
      * @param string $class
      *
-     * @return array<string, array<string, mixed>>
+     * @return \NorseBlue\ExtensibleObjects\Extensions\ExtensionsCollection|null
      */
-    protected function getParentExtensions(string $class): array
+    protected function getParentExtensions(string $class): ?ExtensionsCollection
     {
         $parent = get_parent_class($class);
-
         if (!is_subclass_of($parent, Extensible::class)) {
-            return [];
+            return null;
         }
 
-        /** @var Extensible $parent */
-        return $parent::getExtensionMethods();
+        return $this->getClassExtensions($parent);
     }
 
     /**
@@ -61,7 +59,7 @@ final class ExtensionsRegistry
      */
     public function add(string $class, string $name, Extension $extension): void
     {
-        $this->getClassExtensionsCollection($class)->add($name, $extension);
+        $this->getClassExtensions($class)->add($name, $extension);
     }
 
     /**
@@ -72,15 +70,15 @@ final class ExtensionsRegistry
      *
      * @return ExtensionsCollection
      */
-    public function get(string $class, bool $exclude_parent): ExtensionsCollection
+    public function get(string $class, bool $exclude_parent = false): ExtensionsCollection
     {
-        $extensions = self::getClassExtensionsCollection($class)->toArray();
+        $extensions = self::getClassExtensions($class);
 
         if (!$exclude_parent) {
-            $extensions = array_merge($this->getParentExtensions($class), $extensions);
+            $extensions = $extensions->merge($this->getParentExtensions($class));
         }
 
-        return new ExtensionsCollection($extensions);
+        return new ExtensionsCollection($extensions->toArray());
     }
 
     /**
@@ -91,6 +89,6 @@ final class ExtensionsRegistry
      */
     public function remove(string $class, string $name): void
     {
-        $this->getClassExtensionsCollection($class)->remove($name);
+        $this->getClassExtensions($class)->remove($name);
     }
 }
