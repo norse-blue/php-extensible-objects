@@ -42,7 +42,7 @@ final class ExtensionsCollection
             $extension = new Extension(
                 $extension['method'],
                 $extension['guarded'] ?? false,
-                $extension['static'] ?? false,
+                $extension['static'] ?? false
             );
         }
 
@@ -89,6 +89,23 @@ final class ExtensionsCollection
     public function isGuarded(string $name): bool
     {
         return $this->has($name) && $this->get($name)->is_guarded;
+    }
+
+    /**
+     * Merge the given extensions collection.
+     *
+     * @param \NorseBlue\ExtensibleObjects\Extensions\ExtensionsCollection|null $extensions
+     *
+     * @return \NorseBlue\ExtensibleObjects\Extensions\ExtensionsCollection
+     */
+    public function merge(?ExtensionsCollection $extensions): ExtensionsCollection
+    {
+        $items = $this->toArray();
+        if ($extensions !== null) {
+            $items = array_merge($extensions->toArray(), $items);
+        }
+
+        return new self($items);
     }
 
     /**

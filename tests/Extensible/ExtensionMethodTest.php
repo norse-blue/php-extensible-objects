@@ -14,6 +14,7 @@ use NorseBlue\ExtensibleObjects\Tests\Helpers\CreatableObjectExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingPrivateValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\DynamicMethodUsingProtectedValue;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\FooObject;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\GrandChildObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\OtherExtensionMethod;
@@ -127,6 +128,16 @@ class ExtensionMethodTest extends TestCase
             ChildExtensionMethodReplacement::class,
             $extensions_excluding_parent['subtract_from_protected']['method']
         );
+    }
+
+    /** @test */
+    public function grand_child_inherits_extensible_methods()
+    {
+        $obj = new GrandChildObject();
+
+        $result = $obj->subtract_from_protected(3);
+
+        $this->assertEquals(-6, $result);
     }
 
     /** @test */
