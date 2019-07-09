@@ -24,6 +24,9 @@ final class Extension
     /** @var callable */
     protected $method;
 
+    /** @var bool */
+    protected $static;
+
     /**
      * Create a new instance.
      *
@@ -34,11 +37,19 @@ final class Extension
     {
         $this->method = $method;
         $this->guarded = $guarded;
+
+        $closure = ($method instanceof Closure)? $method : Closure::fromCallable($method());
+        $this->static = $this->isClosureStatic($closure);
     }
 
     protected function accessorIsGuarded(): bool
     {
         return $this->guarded;
+    }
+
+    protected function accessorIsStatic(): bool
+    {
+        return $this->static;
     }
 
     protected function accessorMethod(): callable
@@ -87,11 +98,12 @@ final class Extension
     {
         $method = $this->method;
 
-        $closure = Closure::fromCallable($method());
-        if ($this->isClosurestatic($closure)) {
+        if ($this->is_static) {
             $caller = null;
         }
-        $closure = $closure->bindTo($caller, $scope);
+
+        $closure = Closure::fromCallable($method())
+            ->bindTo($caller, $scope);
 
         return $closure(...$parameters);
     }
@@ -105,6 +117,7 @@ final class Extension
     {
         return [
             'method' => $this->method,
+            'static' => $this->static,
             'guarded' => $this->guarded,
         ];
     }
