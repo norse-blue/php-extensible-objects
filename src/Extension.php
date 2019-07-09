@@ -56,7 +56,7 @@ final class Extension
     protected function isClosureStatic(Closure $closure): bool
     {
         set_error_handler(
-            function ($errno, $errstr) {
+            static function ($errno, $errstr): void {
                 if ($errstr === 'Cannot bind an instance to a static closure') {
                     throw new MethodNotBindableException($errstr, $errno);
                 }
@@ -65,7 +65,7 @@ final class Extension
 
         try {
             $closure->bindTo(new stdClass());
-        } catch (MethodNotBindableException $e) {
+        } catch (MethodNotBindableException $exception) {
             return true;
         } finally {
             restore_error_handler();

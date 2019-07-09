@@ -14,7 +14,7 @@ final class ClassConstructorAccessibleResolver
      *
      * @param string $class
      *
-     * @return array
+     * @return array<string, ReflectionMethod>
      *
      * @throws \ReflectionException
      */
@@ -35,7 +35,7 @@ final class ClassConstructorAccessibleResolver
      * Check if the class constructor is accessible.
      *
      * @param string $class
-     * @param array|null $meta
+     * @param array<string, mixed>|null $meta
      *
      * @return bool
      *
