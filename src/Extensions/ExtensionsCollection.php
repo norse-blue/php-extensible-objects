@@ -42,7 +42,6 @@ final class ExtensionsCollection
             $extension = new Extension(
                 $extension['method'],
                 $extension['guarded'] ?? false,
-                $extension['static'] ?? false
             );
         }
 

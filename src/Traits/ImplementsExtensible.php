@@ -46,7 +46,6 @@ trait ImplementsExtensible
      *
      * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
-     * @param bool $static Whether the extension should be called statically or not.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
      *
      * @throws \ReflectionException
@@ -54,11 +53,10 @@ trait ImplementsExtensible
     final public static function registerExtensionMethod(
         $names,
         $extension,
-        bool $static = false,
         ?bool $guard = null
     ): void {
         $guard = $guard === null ? (bool)static::$guard_extensions : $guard;
-        $extension = ExtensionResolver::resolve($extension, $static, $guard);
+        $extension = ExtensionResolver::resolve($extension, $guard);
 
         $names = is_string($names) ? [$names] : $names;
         foreach ($names as $name) {

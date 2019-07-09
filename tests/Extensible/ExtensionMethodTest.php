@@ -29,7 +29,7 @@ class ExtensionMethodTest extends TestCase
     {
         SimpleObject::registerExtensionMethod('add_to_private', DynamicMethodUsingPrivateValue::class);
         SimpleObject::registerExtensionMethod('subtract_from_protected', DynamicMethodUsingProtectedValue::class);
-        SimpleObject::registerExtensionMethod('static_extension', StaticExtensionMethod::class, true);
+        SimpleObject::registerExtensionMethod('static_extension', StaticExtensionMethod::class);
         ChildObject::registerExtensionMethod('subtract_from_protected', ChildExtensionMethodReplacement::class);
     }
 
@@ -44,7 +44,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_override_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('guarded'));
-        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, false, true);
+        GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('guarded'));
 
         try {
@@ -62,7 +62,7 @@ class ExtensionMethodTest extends TestCase
     public function cannot_unregister_guarded_method()
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('unregisterable'));
-        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, false, true);
+        GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, true);
         $this->assertTrue(GuardedObject::hasExtensionMethod('unregisterable'));
 
         try {
@@ -113,17 +113,14 @@ class ExtensionMethodTest extends TestCase
             DynamicMethodUsingPrivateValue::class,
             $extensions['add_to_private']['method']
         );
-        $this->assertFalse($extensions['add_to_private']['static']);
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
             $extensions['subtract_from_protected']['method']
         );
-        $this->assertFalse($extensions['subtract_from_protected']['static']);
         $this->assertInstanceOf(
             StaticExtensionMethod::class,
             $extensions['static_extension']['method']
         );
-        $this->assertTrue($extensions['static_extension']['static']);
 
         $this->assertInstanceOf(
             ChildExtensionMethodReplacement::class,
