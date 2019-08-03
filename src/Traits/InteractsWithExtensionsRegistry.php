@@ -6,7 +6,7 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 
 use NorseBlue\ExtensibleObjects\Extensions\ExtensionsRegistry;
 
-trait InteractsWithRegistry
+trait InteractsWithExtensionsRegistry
 {
     /** @var ExtensionsRegistry The extensions registry. */
     private static $extensions;

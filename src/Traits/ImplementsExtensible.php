@@ -9,7 +9,7 @@ use NorseBlue\ExtensibleObjects\Resolvers\ExtensionResolver;
 
 trait ImplementsExtensible
 {
-    use InteractsWithRegistry;
+    use InteractsWithExtensionsRegistry;
 
     /** @var bool Whether to guard all extensions by default or not. */
     protected static $guard_extensions = false;
