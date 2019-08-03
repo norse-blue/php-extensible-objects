@@ -1,4 +1,19 @@
+remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-remote-theme
-remote_theme: pmarsceill/just-the-docs
+  - jekyll-seo-tag
+
+title: "PHP Extensible Objects"
+description: "Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects."
+url: "https://norse-blue.github.io"
+baseurl: "/php-extensible-objects/"
+permalink: pretty
 search_enabled: true
+
+# Aux links for the upper right navigation
+aux_links:
+  "PHP Handy Properties on GitHub":
+    - "//github.com/norse-blue/php-extensible-objects"
+
+# Google Analytics
+ga_tracking: UA-144830285-3
