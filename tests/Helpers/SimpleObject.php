@@ -33,6 +33,16 @@ class SimpleObject implements Extensible
     }
 
     /**
+     * @param int $num
+     *
+     * @return float|int
+     */
+    public function definedMethod(int $num = 0): int
+    {
+        return $num * $num;
+    }
+
+    /**
      * @return int
      */
     public function getPrivateValue(): int
@@ -62,15 +72,5 @@ class SimpleObject implements Extensible
     public function setProtectedValue(int $protected_value): void
     {
         $this->protected_value = $protected_value;
-    }
-
-    /**
-     * @param int $num
-     *
-     * @return float|int
-     */
-    public function definedMethod(int $num = 0): int
-    {
-        return $num * $num;
     }
 }

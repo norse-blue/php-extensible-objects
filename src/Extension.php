@@ -38,7 +38,7 @@ final class Extension
         $this->method = $method;
         $this->guarded = $guarded;
 
-        $closure = $method instanceof Closure? $method : Closure::fromCallable($method());
+        $closure = $method instanceof Closure ? $method : Closure::fromCallable($method());
         $this->static = $this->isClosureStatic($closure);
     }
 
