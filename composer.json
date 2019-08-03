@@ -1,6 +1,6 @@
 {
   "name": "norse-blue/extensible-objects",
-  "description": "Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects.",
+  "description": "PHP Extensible Objects is a PHP library that provides the mechanisms to dynamically add extension methods to objects.",
   "keywords": [
     "extension",
     "objects",
