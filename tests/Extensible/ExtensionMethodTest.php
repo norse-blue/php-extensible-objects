@@ -21,23 +21,31 @@ use NorseBlue\ExtensibleObjects\Tests\Helpers\GuardedObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\OtherExtensionMethod;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\SimpleObject;
 use NorseBlue\ExtensibleObjects\Tests\Helpers\StaticExtensionMethod;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\StaticPropertyExtensionMethod;
+use NorseBlue\ExtensibleObjects\Tests\Helpers\StaticPropertyObject;
 use NorseBlue\ExtensibleObjects\Tests\TestCase;
 
 class ExtensionMethodTest extends TestCase
 {
     protected function setUp(): void
     {
+        ChildObject::registerExtensionMethod('subtract_from_protected', ChildExtensionMethodReplacement::class);
         SimpleObject::registerExtensionMethod('add_to_private', DynamicMethodUsingPrivateValue::class);
         SimpleObject::registerExtensionMethod('subtract_from_protected', DynamicMethodUsingProtectedValue::class);
         SimpleObject::registerExtensionMethod('static_extension', StaticExtensionMethod::class);
-        ChildObject::registerExtensionMethod('subtract_from_protected', ChildExtensionMethodReplacement::class);
+        StaticPropertyObject::registerExtensionMethod(
+            'static_property_extension',
+            StaticPropertyExtensionMethod::class
+        );
     }
 
     protected function tearDown(): void
     {
+        ChildObject::unregisterExtensionMethod('subtract_from_protected');
         SimpleObject::unregisterExtensionMethod('add_to_private');
         SimpleObject::unregisterExtensionMethod('subtract_from_protected');
-        ChildObject::unregisterExtensionMethod('subtract_from_protected');
+        SimpleObject::unregisterExtensionMethod('static_extension');
+        StaticPropertyObject::unregisterExtensionMethod('static_property_extensions');
     }
 
     /** @test */
@@ -257,8 +265,18 @@ class ExtensionMethodTest extends TestCase
     {
         $obj = new SimpleObject();
 
-        $result = $obj::static_extension(3);
+        $result1 = $obj::static_extension(3);
+        $result2 = SimpleObject::static_extension(5);
 
-        $this->assertEquals(9, $result);
+        $this->assertEquals(9, $result1);
+        $this->assertEquals(25, $result2);
+    }
+
+    /** @test */
+    public function static_property_extension_executes_as_expected()
+    {
+        $result = StaticPropertyExtensionMethod::static_property_extension();
+
+        $this->assertEquals('MY_VALUE', $result);
     }
 }
