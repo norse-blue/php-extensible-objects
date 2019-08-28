@@ -143,10 +143,9 @@ namespace {
 namespace NorseBlue\ExtensionObjects {
 
     if (false) {
-
         /**
          * @method bool extension_name()
-
+         *
          * @see \NorseBlue\ExtensibleObjects\MyExtensionMethod
          */
         class MyObject
