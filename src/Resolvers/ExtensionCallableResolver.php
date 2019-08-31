@@ -19,14 +19,10 @@ final class ExtensionCallableResolver
      * @param string $extension
      *
      * @return callable
-     *
-     * @throws \ReflectionException
      */
     public static function resolve(string $extension): callable
     {
-        if (!ClassConstructorAccessibleResolver::resolve($extension)
-            && is_subclass_of($extension, Creatable::class)
-        ) {
+        if (is_subclass_of($extension, Creatable::class)) {
             /** @var Creatable $extension */
             return $extension::create();
         }
