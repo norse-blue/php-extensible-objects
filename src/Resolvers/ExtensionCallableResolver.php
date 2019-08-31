@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects\Resolvers;
 
-use NorseBlue\ExtensibleObjects\Contracts\Creatable;
+use NorseBlue\CreatableObjects\Contracts\Creatable;
 
 final class ExtensionCallableResolver
 {

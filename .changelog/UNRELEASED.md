@@ -16,7 +16,7 @@
 
 ## Removed :fire:
 
-
+- The Creatable contract was moved to its own package [norse-blue/creatable-objects](https://github.com/norse-blue/php-creatable-objects).
 
 ## Fixed :bug:
 

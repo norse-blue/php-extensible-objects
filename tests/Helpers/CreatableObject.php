@@ -2,7 +2,7 @@
 
 namespace NorseBlue\ExtensibleObjects\Tests\Helpers;
 
-use NorseBlue\ExtensibleObjects\Contracts\Creatable;
+use NorseBlue\CreatableObjects\Contracts\Creatable;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Traits\HandlesExtensionMethods;
 

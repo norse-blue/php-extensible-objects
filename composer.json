@@ -27,6 +27,7 @@
   },
   "require": {
     "php": "^7.3",
+    "norse-blue/creatable-objects": "^1.0",
     "norse-blue/handy-properties": "^1.0"
   },
   "require-dev": {
