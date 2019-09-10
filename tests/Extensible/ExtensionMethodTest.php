@@ -49,7 +49,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function cannot_override_guarded_method()
+    public function cannot_override_guarded_method(): void
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('guarded'));
         GuardedObject::registerExtensionMethod('guarded', GuardedExtensionMethod::class, true);
@@ -67,7 +67,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function cannot_unregister_guarded_method()
+    public function cannot_unregister_guarded_method(): void
     {
         $this->assertFalse(GuardedObject::hasExtensionMethod('unregisterable'));
         GuardedObject::registerExtensionMethod('unregisterable', GuardedExtensionMethod::class, true);
@@ -85,7 +85,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function child_executes_own_extension_method()
+    public function child_executes_own_extension_method(): void
     {
         $obj = new ChildObject();
 
@@ -95,7 +95,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function child_executes_parent_extension_method()
+    public function child_executes_parent_extension_method(): void
     {
         $obj = new ChildObject();
 
@@ -105,7 +105,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function child_object_inherits_parent_extension_methods()
+    public function child_object_inherits_parent_extension_methods(): void
     {
         $this->assertTrue(ChildObject::hasExtensionMethod('add_to_private'));
         $this->assertFalse(ChildObject::hasExtensionMethod('add_to_private', true));
@@ -137,7 +137,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function creatable_extensible_object()
+    public function creatable_extensible_object(): void
     {
         $this->assertFalse(CreatableObject::hasExtensionMethod('creatable'));
         CreatableObject::registerExtensionMethod('creatable', CreatableObjectExtensionMethod::class);
@@ -148,7 +148,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function grand_child_inherits_extensible_methods()
+    public function grand_child_inherits_extensible_methods(): void
     {
         $obj = new GrandChildObject();
 
@@ -158,7 +158,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_registered_extension_methods()
+    public function it_checks_registered_extension_methods(): void
     {
         $this->assertTrue(SimpleObject::hasExtensionMethod('add_to_private'));
         $this->assertTrue(SimpleObject::hasExtensionMethod('subtract_from_protected'));
@@ -178,7 +178,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_executes_method_using_private_property_correctly()
+    public function it_executes_method_using_private_property_correctly(): void
     {
         $obj = new SimpleObject();
 
@@ -188,7 +188,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_executes_method_using_protected_property_correctly()
+    public function it_executes_method_using_protected_property_correctly(): void
     {
         $obj = new SimpleObject();
 
@@ -198,7 +198,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_calling_not_existing_extension_method()
+    public function it_throws_exception_when_calling_not_existing_extension_method(): void
     {
         $obj = new SimpleObject();
 
@@ -214,7 +214,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_extension_method_class_is_not_extension_method()
+    public function it_throws_exception_when_extension_method_class_is_not_extension_method(): void
     {
         try {
             SimpleObject::registerExtensionMethod('foo', FooObject::class);
@@ -228,7 +228,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_extension_method_is_not_callable()
+    public function it_throws_exception_when_extension_method_is_not_callable(): void
     {
         try {
             SimpleObject::registerExtensionMethod('foo', 'not callable');
@@ -242,7 +242,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_extension_method_name_already_defined_as_class_function()
+    public function it_throws_exception_when_extension_method_name_already_defined_as_class_function(): void
     {
         try {
             SimpleObject::registerExtensionMethod(
@@ -261,7 +261,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function static_extension_executes_as_expected()
+    public function static_extension_executes_as_expected(): void
     {
         $obj = new SimpleObject();
 
@@ -273,7 +273,7 @@ class ExtensionMethodTest extends TestCase
     }
 
     /** @test */
-    public function static_property_extension_executes_as_expected()
+    public function static_property_extension_executes_as_expected(): void
     {
         $result = StaticPropertyExtensionMethod::static_property_extension();
 

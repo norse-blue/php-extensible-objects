@@ -37,7 +37,7 @@ class SimpleObject implements Extensible
      *
      * @return float|int
      */
-    public function definedMethod(int $num = 0): int
+    public function definedMethod(int $num = 0)
     {
         return $num * $num;
     }
