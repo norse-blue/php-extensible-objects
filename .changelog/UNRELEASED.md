@@ -28,4 +28,4 @@
 
 ---
 
-Previous: [Release 2.0.0](CHANGELOG-2.0.0.md)
+Previous: [Release 2.0.1](CHANGELOG-2.0.1.md)
