@@ -17,7 +17,7 @@ class CreatableObject implements Creatable, Extensible
     {
     }
 
-    public static function create(): self
+    public static function create(...$params): self
     {
         return new static();
     }
