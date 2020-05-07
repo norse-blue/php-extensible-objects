@@ -15,5 +15,4 @@ First stable release.
 - The `ExtensibleObject` class is now marked as `abstract`). (165c74ad3c86e9e4bd2af27ea705c83b2799c8a5)
 
 ---
-
 Previous: [Release 0.5.1](CHANGELOG-0.5.1.md)

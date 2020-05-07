@@ -18,5 +18,4 @@ New features and small improvements.
  extension methods in batch. (Commit #33f410)
 
 ---
-
 Previous: [Release 0.3.0](CHANGELOG-0.3.0.md)

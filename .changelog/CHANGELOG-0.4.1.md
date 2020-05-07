@@ -12,5 +12,4 @@ Small improvements
   **Note:** You are still encouraged to add the static property to each of your child classes, as this allows them to be handled in their own static property instead of a shared one.
 
 ---
-
 Previous: [Release 0.4.0](CHANGELOG-0.4.0.md)

@@ -12,5 +12,4 @@ We've taken out some responsibilities of this package and placed them into its o
 - The `ClassConstructorAccessibleResolver` class is no longer needed.
 
 ---
-
 Previous: [Release 1.0.0](CHANGELOG-1.0.0.md)

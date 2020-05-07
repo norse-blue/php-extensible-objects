@@ -8,5 +8,4 @@ Maintenance release.
 - Github docs site.
 
 ---
-
 Previous: [Release 0.5.0](CHANGELOG-0.5.0.md)
