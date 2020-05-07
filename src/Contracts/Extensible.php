@@ -9,8 +9,6 @@ interface Extensible
     /**
      * Get the registered extension methods.
      *
-     * @param bool $exclude_parent
-     *
      * @return array<string, array<string, mixed>>
      */
     public static function getExtensionMethods(bool $exclude_parent = false): array;
@@ -33,8 +31,6 @@ interface Extensible
      * @param string|array<string> $names The name(s) of the extension method.
      * @param string|callable $extension The extension method class name or callable.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
-     *
-     * @return void
      */
     public static function registerExtensionMethod($names, $extension, ?bool $guard = null): void;
 
@@ -42,8 +38,6 @@ interface Extensible
      * Unregister extension methods.
      *
      * @param string|array<string> $names The name(s) of the extension method.
-     *
-     * @return void
      */
     public static function unregisterExtensionMethod($names): void;
 }

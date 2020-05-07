@@ -18,9 +18,6 @@ final class MethodDefinedInClassGuard
     /**
      * Guard from already classed defined methods.
      *
-     * @param string $class
-     * @param string $name
-     *
      * @throws \ReflectionException
      */
     public static function enforce(string $class, string $name): void
@@ -33,7 +30,7 @@ final class MethodDefinedInClassGuard
         );
 
         if (in_array($name, $methods)) {
-            throw new MethodDefinedInClassException("The method '$name' is already defined for class '$class'.");
+            throw new MethodDefinedInClassException("The method '${name}' is already defined for class '${class}'.");
         }
     }
 }

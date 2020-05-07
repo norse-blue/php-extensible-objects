@@ -15,15 +15,10 @@ final class ExtensionCallableResolver
 
     /**
      * Get the extension method callable.
-     *
-     * @param string $extension
-     *
-     * @return callable
      */
     public static function resolve(string $extension): callable
     {
         if (is_subclass_of($extension, Creatable::class)) {
-            /** @var Creatable $extension */
             return $extension::create();
         }
 

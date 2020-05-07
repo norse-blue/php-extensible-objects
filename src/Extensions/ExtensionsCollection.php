@@ -11,7 +11,7 @@ use NorseBlue\ExtensibleObjects\Extension;
 final class ExtensionsCollection
 {
     /** @var array<string, Extension> */
-    protected $items;
+    private array $items;
 
     /**
      * Create a new instance.
@@ -29,13 +29,12 @@ final class ExtensionsCollection
     /**
      * Add the extension to the collection.
      *
-     * @param string $name
      * @param Extension|array<string, mixed> $extension
      */
     public function add(string $name, $extension): void
     {
         if ($this->isGuarded($name)) {
-            throw new ExtensionGuardedException("The extension '$name' is guarded, cannot replace.");
+            throw new ExtensionGuardedException("The extension '${name}' is guarded, cannot replace.");
         }
 
         if (is_array($extension)) {
@@ -51,16 +50,12 @@ final class ExtensionsCollection
     /**
      * Get the extension from the collection.
      *
-     * @param string $name
-     *
-     * @return Extension
-     *
      * @throws ExtensionNotFoundException
      */
     public function get(string $name): Extension
     {
         if (!$this->has($name)) {
-            throw new ExtensionNotFoundException("Cannot find the extension '$name'.");
+            throw new ExtensionNotFoundException("Cannot find the extension '${name}'.");
         }
 
         return $this->items[$name];
@@ -68,10 +63,6 @@ final class ExtensionsCollection
 
     /**
      * Check if the collection has the extension.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -80,10 +71,6 @@ final class ExtensionsCollection
 
     /**
      * Check if the collection has the extension and is guarded.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function isGuarded(string $name): bool
     {
@@ -92,10 +79,6 @@ final class ExtensionsCollection
 
     /**
      * Merge the given extensions collection.
-     *
-     * @param \NorseBlue\ExtensibleObjects\Extensions\ExtensionsCollection|null $extensions
-     *
-     * @return \NorseBlue\ExtensibleObjects\Extensions\ExtensionsCollection
      */
     public function merge(?ExtensionsCollection $extensions): ExtensionsCollection
     {
@@ -109,13 +92,11 @@ final class ExtensionsCollection
 
     /**
      * Remove an extension from the collection.
-     *
-     * @param string $name
      */
     public function remove(string $name): void
     {
         if ($this->isGuarded($name)) {
-            throw new ExtensionGuardedException("The extension '$name' is guarded, cannot remove.");
+            throw new ExtensionGuardedException("The extension '${name}' is guarded, cannot remove.");
         }
 
         unset($this->items[$name]);
