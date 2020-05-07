@@ -30,5 +30,4 @@ needed methods were not available in your class). We are sometimes forgetful, bu
 `NorseBlue\ExtensibleObjects\Contracts\Extensible` now has the proper methods declared. (Commit #4eae29)
 
 ---
-
 Previous: [Release 0.2.1](CHANGELOG-0.2.1.md)

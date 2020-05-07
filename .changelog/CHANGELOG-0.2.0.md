@@ -11,5 +11,4 @@ methods and makes them available to the child class ([#1](https://github.com/nor
 - Improved the [README](../README.md) file.
 
 ---
-
 Previous: [Release 0.1.0](CHANGELOG-0.1.0.md)

@@ -7,5 +7,4 @@ BC release fix. This is the release that should be.
 - Fixed the `getExtensionsMethod` method from previous BC release.
 
 ---
-
 Previous: [Release 0.4.1](CHANGELOG-0.4.1.md)

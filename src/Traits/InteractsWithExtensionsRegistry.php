@@ -8,13 +8,11 @@ use NorseBlue\ExtensibleObjects\Extensions\ExtensionsRegistry;
 
 trait InteractsWithExtensionsRegistry
 {
-    /** @var ExtensionsRegistry The extensions registry. */
-    private static $extensions;
+    /** @var ExtensionsRegistry|null The extensions registry. */
+    private static ?ExtensionsRegistry $extensions = null;
 
     /**
      * Get the extension registry.
-     *
-     * @return ExtensionsRegistry
      */
     final private static function getRegistry(): ExtensionsRegistry
     {

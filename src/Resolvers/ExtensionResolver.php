@@ -20,11 +20,6 @@ final class ExtensionResolver
      * Resolve the extension method.
      *
      * @param string|callable $extension
-     * @param bool $guard
-     *
-     * @return Extension
-     *
-     * @throws \ReflectionException
      */
     public static function resolve($extension, bool $guard): Extension
     {
@@ -35,7 +30,7 @@ final class ExtensionResolver
         }
 
         if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
+            throw new ExtensionNotCallableException("The extension method '${extension}' is not callable.");
         }
 
         return new Extension($extension, $guard);

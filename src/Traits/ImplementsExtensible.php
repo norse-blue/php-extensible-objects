@@ -12,7 +12,7 @@ trait ImplementsExtensible
     use InteractsWithExtensionsRegistry;
 
     /** @var bool Whether to guard all extensions by default or not. */
-    protected static $guard_extensions = false;
+    protected static bool $guard_extensions = false;
 
     /**
      * Get the registered extension methods.
@@ -55,7 +55,7 @@ trait ImplementsExtensible
         $extension,
         ?bool $guard = null
     ): void {
-        $guard = $guard === null ? (bool)static::$guard_extensions : $guard;
+        $guard = $guard === null ? (bool) static::$guard_extensions : $guard;
         $extension = ExtensionResolver::resolve($extension, $guard);
 
         $names = is_string($names) ? [$names] : $names;
@@ -69,8 +69,6 @@ trait ImplementsExtensible
      * Unregister extension methods.
      *
      * @param string|array<string> $names The name(s) of the extension method.
-     *
-     * @return void
      */
     final public static function unregisterExtensionMethod($names): void
     {

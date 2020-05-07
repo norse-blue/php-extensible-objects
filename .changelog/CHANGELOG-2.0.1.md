@@ -7,5 +7,4 @@ Maintenance release.
 - Updated the test code to reflect recent dependency changes.
 
 ---
-
 Previous: [Release 2.0.0](CHANGELOG-2.0.0.md)

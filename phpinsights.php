@@ -9,7 +9,6 @@ use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterCastSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
 use SlevomatCodingStandard\Sniffs\Classes\SuperfluousExceptionNamingSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
 
 return [
 
@@ -59,11 +58,7 @@ return [
     ],
 
     'config' => [
-        TypeHintDeclarationSniff::class => [
-            'exclude' => [
-                'src/Resolvers/ExtensionCallableResolver.php',
-            ],
-        ],
+
     ],
 
 ];
