@@ -1,6 +1,6 @@
 <?php
 
-namespace NorseBlue\ExtensibleObjects\Tests\Feature;
+namespace NorseBlue\ExtensibleObjects\Tests\Extensible;
 
 use Exception;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
