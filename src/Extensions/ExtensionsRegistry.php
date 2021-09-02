@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace NorseBlue\ExtensibleObjects\Extensions;
 
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
-use NorseBlue\ExtensibleObjects\Exceptions\ExtensionHasNoParentException;
 use NorseBlue\ExtensibleObjects\Extension;
 
 final class ExtensionsRegistry
@@ -63,11 +62,7 @@ final class ExtensionsRegistry
     {
         $parent = get_parent_class($class);
 
-        if ($parent === false) {
-            throw new ExtensionHasNoParentException("The extension '$class' has no parent extension.");
-        }
-
-        if (! is_subclass_of($parent, Extensible::class)) {
+        if ($parent === false || ! is_subclass_of($parent, Extensible::class)) {
             return null;
         }
 
