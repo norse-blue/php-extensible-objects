@@ -32,12 +32,16 @@ interface Extensible
      * @param string|callable $extension The extension method class name or callable.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
      */
-    public static function registerExtensionMethod($names, $extension, ?bool $guard = null): void;
+    public static function registerExtensionMethod(
+        string|array $names,
+        string|callable $extension,
+        ?bool $guard = null
+    ): void;
 
     /**
      * Unregister extension methods.
      *
      * @param string|array<string> $names The name(s) of the extension method.
      */
-    public static function unregisterExtensionMethod($names): void;
+    public static function unregisterExtensionMethod(string|array $names): void;
 }

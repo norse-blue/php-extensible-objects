@@ -18,10 +18,8 @@ final class ExtensionResolver
 
     /**
      * Resolve the extension method.
-     *
-     * @param string|callable $extension
      */
-    public static function resolve($extension, bool $guard): Extension
+    public static function resolve(string|callable $extension, bool $guard): Extension
     {
         if (is_string($extension) && class_exists($extension)) {
             InvalidExtensionGuard::enforce($extension);
@@ -29,8 +27,8 @@ final class ExtensionResolver
             $extension = ExtensionCallableResolver::resolve($extension);
         }
 
-        if (!is_callable($extension)) {
-            throw new ExtensionNotCallableException("The extension method '${extension}' is not callable.");
+        if (! is_callable($extension)) {
+            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
         }
 
         return new Extension($extension, $guard);

@@ -43,10 +43,8 @@ final class Extension
      * @param string $scope The new scope of the extension method.
      * @param array<mixed> $parameters The extension method parameters to use.
      * @param object|null $caller The caller object.
-     *
-     * @return mixed
      */
-    public function execute(string $scope, array $parameters, ?object $caller = null)
+    public function execute(string $scope, array $parameters, ?object $caller = null): mixed
     {
         $method = $this->method;
 

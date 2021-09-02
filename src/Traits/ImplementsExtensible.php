@@ -6,6 +6,7 @@ namespace NorseBlue\ExtensibleObjects\Traits;
 
 use NorseBlue\ExtensibleObjects\Guards\MethodDefinedInClassGuard;
 use NorseBlue\ExtensibleObjects\Resolvers\ExtensionResolver;
+use ReflectionException;
 
 trait ImplementsExtensible
 {
@@ -48,20 +49,20 @@ trait ImplementsExtensible
      * @param string|callable $extension The extension method class name or callable.
      * @param bool|null $guard Whether to guard the extension method being registered or not.
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     final public static function registerExtensionMethod(
-        $names,
-        $extension,
+        string|array $names,
+        string|callable $extension,
         ?bool $guard = null
     ): void {
-        $guard = $guard === null ? (bool) static::$guard_extensions : $guard;
-        $extension = ExtensionResolver::resolve($extension, $guard);
+        $guard = $guard ?? static::$guard_extensions;
+        $resolved_extension = ExtensionResolver::resolve($extension, $guard ?? false);
 
         $names = is_string($names) ? [$names] : $names;
         foreach ($names as $name) {
             MethodDefinedInClassGuard::enforce(static::class, $name);
-            self::getRegistry()->add(static::class, $name, $extension);
+            self::getRegistry()->add(static::class, $name, $resolved_extension);
         }
     }
 
@@ -70,7 +71,7 @@ trait ImplementsExtensible
      *
      * @param string|array<string> $names The name(s) of the extension method.
      */
-    final public static function unregisterExtensionMethod($names): void
+    final public static function unregisterExtensionMethod(string|array $names): void
     {
         $names = is_string($names) ? [$names] : $names;
         foreach ($names as $name) {
