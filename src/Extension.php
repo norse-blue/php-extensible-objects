@@ -80,10 +80,12 @@ final class Extension
     protected function isClosureStatic(Closure $closure): bool
     {
         set_error_handler(
-            static function ($errno, $errstr): void {
+            static function (int $errno, string $errstr, string $errfile, int $errline): bool {
                 if ($errstr === 'Cannot bind an instance to a static closure') {
-                    throw new MethodNotBindableException($errstr, $errno);
+                    throw new MethodNotBindableException($errstr, $errno, $errfile, $errline);
                 }
+
+                return true;
             }
         );
 
