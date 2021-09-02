@@ -31,7 +31,7 @@ final class ExtensionsCollection
      *
      * @param Extension|array<string, mixed> $extension
      */
-    public function add(string $name, $extension): void
+    public function add(string $name, Extension|array $extension): void
     {
         if ($this->isGuarded($name)) {
             throw new ExtensionGuardedException("The extension '${name}' is guarded, cannot replace.");

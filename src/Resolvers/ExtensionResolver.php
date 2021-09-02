@@ -28,7 +28,7 @@ final class ExtensionResolver
         }
 
         if (! is_callable($extension)) {
-            throw new ExtensionNotCallableException("The extension method '$extension' is not callable.");
+            throw new ExtensionNotCallableException("The extension method '${extension}' is not callable.");
         }
 
         return new Extension($extension, $guard);

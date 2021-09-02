@@ -22,7 +22,7 @@ final class MethodNotBindableException extends RuntimeException
         int $code = 0,
         string $errfile = '',
         int $errline = 0,
-        Throwable $previous = null,
+        ?Throwable $previous = null,
     ) {
         parent::__construct(
             $message,
@@ -34,17 +34,11 @@ final class MethodNotBindableException extends RuntimeException
         $this->errline = $errline;
     }
 
-    /**
-     * @return string
-     */
     public function getErrfile(): string
     {
         return $this->errfile;
     }
 
-    /**
-     * @return int
-     */
     public function getErrline(): int
     {
         return $this->errline;

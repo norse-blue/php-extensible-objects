@@ -24,7 +24,7 @@ final class MethodDefinedInClassGuard
     public static function enforce(string $class, string $name): void
     {
         if (! class_exists($class)) {
-            throw new ReflectionException("The class '$class' does not exist.");
+            throw new ReflectionException("The class '${class}' does not exist.");
         }
 
         $methods = array_map(
@@ -35,7 +35,7 @@ final class MethodDefinedInClassGuard
         );
 
         if (in_array($name, $methods, true)) {
-            throw new MethodDefinedInClassException("The method '$name' is already defined for class '$class'.");
+            throw new MethodDefinedInClassException("The method '${name}' is already defined for class '${class}'.");
         }
     }
 }
