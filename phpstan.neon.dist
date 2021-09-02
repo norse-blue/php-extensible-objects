@@ -1,8 +1,5 @@
 parameters:
-    level: 6
+    level: 8
     paths:
         - src
     ignoreErrors:
-        -
-            message: '~Parameter #1 \$error_handler of function set_error_handler expects \(callable\(int, string, string, int, array\): bool\)\|null, Closure\(mixed, mixed\): void given\.~'
-            path: src/Extension.php
