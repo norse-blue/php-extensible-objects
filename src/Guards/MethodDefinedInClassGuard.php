@@ -30,8 +30,8 @@ final class MethodDefinedInClassGuard
             (new ReflectionClass($class))->getMethods()
         );
 
-        if (in_array($name, $methods)) {
-            throw new MethodDefinedInClassException("The method '${name}' is already defined for class '${class}'.");
+        if (in_array($name, $methods, true)) {
+            throw new MethodDefinedInClassException("The method '$name' is already defined for class '$class'.");
         }
     }
 }
