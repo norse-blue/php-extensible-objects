@@ -16,7 +16,7 @@ trait InteractsWithExtensionsRegistry
      */
     private static function getRegistry(): ExtensionsRegistry
     {
-        if (!self::$extensions instanceof ExtensionsRegistry) {
+        if (! self::$extensions instanceof ExtensionsRegistry) {
             self::$extensions = new ExtensionsRegistry();
         }
 

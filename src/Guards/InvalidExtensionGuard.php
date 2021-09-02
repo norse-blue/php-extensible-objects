@@ -22,7 +22,7 @@ final class InvalidExtensionGuard
      */
     public static function enforce(string $extension): void
     {
-        if (!is_subclass_of($extension, ExtensionMethod::class)) {
+        if (! is_subclass_of($extension, ExtensionMethod::class)) {
             throw new ClassNotExtensionMethodException(
                 sprintf(
                     "The extension method class '${extension}' must implement interface %s.",

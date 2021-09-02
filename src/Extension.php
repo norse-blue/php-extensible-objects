@@ -72,6 +72,21 @@ final class Extension
         ];
     }
 
+    protected function accessorIsGuarded(): bool
+    {
+        return $this->guarded;
+    }
+
+    protected function accessorIsStatic(): bool
+    {
+        return $this->static;
+    }
+
+    protected function accessorMethod(): callable
+    {
+        return $this->method;
+    }
+
     /**
      * Determine if the closure is static.
      */
@@ -96,20 +111,5 @@ final class Extension
         }
 
         return false;
-    }
-
-    protected function accessorIsGuarded(): bool
-    {
-        return $this->guarded;
-    }
-
-    protected function accessorIsStatic(): bool
-    {
-        return $this->static;
-    }
-
-    protected function accessorMethod(): callable
-    {
-        return $this->method;
     }
 }

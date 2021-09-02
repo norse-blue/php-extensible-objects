@@ -54,7 +54,7 @@ final class ExtensionsCollection
      */
     public function get(string $name): Extension
     {
-        if (!$this->has($name)) {
+        if (! $this->has($name)) {
             throw new ExtensionNotFoundException("Cannot find the extension '${name}'.");
         }
 
