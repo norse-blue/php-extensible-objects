@@ -6,6 +6,7 @@ namespace NorseBlue\ExtensibleObjects\Guards;
 
 use NorseBlue\ExtensibleObjects\Exceptions\MethodDefinedInClassException;
 use ReflectionClass;
+use ReflectionException;
 
 final class MethodDefinedInClassGuard
 {
@@ -16,9 +17,9 @@ final class MethodDefinedInClassGuard
     // @codeCoverageIgnoreEnd
 
     /**
-     * Guard from already classed defined methods.
+     * Guard against already classed defined methods.
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function enforce(string $class, string $name): void
     {
