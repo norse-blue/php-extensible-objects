@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NorseBlue\ExtensibleObjects;
 
 use Closure;
+use JetBrains\PhpStorm\ArrayShape;
 use NorseBlue\ExtensibleObjects\Exceptions\MethodNotBindableException;
 use NorseBlue\HandyProperties\Traits\HasPropertyAccessors;
 use stdClass;
@@ -63,6 +64,7 @@ final class Extension
      *
      * @return array<string, mixed>
      */
+    #[ArrayShape(['method' => 'callable', 'static' => 'bool', 'guarded' => 'bool'])]
     public function toArray(): array
     {
         return [
@@ -104,7 +106,7 @@ final class Extension
 
         try {
             $closure->bindTo(new stdClass());
-        } catch (MethodNotBindableException $exception) {
+        } catch (MethodNotBindableException) {
             return true;
         } finally {
             restore_error_handler();

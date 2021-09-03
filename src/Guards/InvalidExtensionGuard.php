@@ -7,18 +7,20 @@ namespace NorseBlue\ExtensibleObjects\Guards;
 use NorseBlue\ExtensibleObjects\Contracts\ExtensionMethod;
 use NorseBlue\ExtensibleObjects\Exceptions\ClassNotExtensionMethodException;
 
+/**
+ * @internal
+ */
 final class InvalidExtensionGuard
 {
-    // @codeCoverageIgnoreStart
+    /** @codeCoverageIgnore */
     private function __construct()
     {
     }
-    // @codeCoverageIgnoreEnd
 
     /**
-     * Guard from an invalid extension method class.
+     * Guard against an invalid extension method class.
      *
-     * @param string $extension The extension method.
+     * @param string $extension The extension method class name.
      */
     public static function enforce(string $extension): void
     {

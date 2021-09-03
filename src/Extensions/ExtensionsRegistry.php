@@ -7,6 +7,9 @@ namespace NorseBlue\ExtensibleObjects\Extensions;
 use NorseBlue\ExtensibleObjects\Contracts\Extensible;
 use NorseBlue\ExtensibleObjects\Extension;
 
+/**
+ * @internal
+ */
 final class ExtensionsRegistry
 {
     /** @var array<string, ExtensionsCollection> */

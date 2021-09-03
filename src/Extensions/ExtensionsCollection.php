@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects\Extensions;
 
+use JetBrains\PhpStorm\Pure;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionGuardedException;
 use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotFoundException;
 use NorseBlue\ExtensibleObjects\Extension;
 
+/**
+ * @internal
+ */
 final class ExtensionsCollection
 {
     /** @var array<string, Extension> */
@@ -66,7 +70,7 @@ final class ExtensionsCollection
      */
     public function has(string $name): bool
     {
-        return in_array($name, array_keys($this->items));
+        return array_key_exists($name, $this->items);
     }
 
     /**
@@ -107,6 +111,7 @@ final class ExtensionsCollection
      *
      * @return array<string, array<string, mixed>>
      */
+    #[Pure]
     public function toArray(): array
     {
         $arr = [];

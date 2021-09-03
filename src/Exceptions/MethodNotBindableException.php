@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NorseBlue\ExtensibleObjects\Exceptions;
 
+use JetBrains\PhpStorm\Pure;
 use RuntimeException;
 use Throwable;
 
@@ -14,14 +15,15 @@ use Throwable;
  */
 final class MethodNotBindableException extends RuntimeException
 {
-    protected string $errfile;
-    protected int $errline;
+    protected string $error_file;
+    protected int $error_line;
 
+    #[Pure]
     public function __construct(
         string $message = '',
         int $code = 0,
-        string $errfile = '',
-        int $errline = 0,
+        string $error_file = '',
+        int $error_line = 0,
         ?Throwable $previous = null,
     ) {
         parent::__construct(
@@ -30,17 +32,17 @@ final class MethodNotBindableException extends RuntimeException
             $previous
         );
 
-        $this->errfile = $errfile;
-        $this->errline = $errline;
+        $this->error_file = $error_file;
+        $this->error_line = $error_line;
     }
 
-    public function getErrfile(): string
+    public function getErrorFile(): string
     {
-        return $this->errfile;
+        return $this->error_file;
     }
 
-    public function getErrline(): int
+    public function getErrorLine(): int
     {
-        return $this->errline;
+        return $this->error_line;
     }
 }

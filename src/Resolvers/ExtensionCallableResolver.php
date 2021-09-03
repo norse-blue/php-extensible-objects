@@ -6,6 +6,9 @@ namespace NorseBlue\ExtensibleObjects\Resolvers;
 
 use NorseBlue\CreatableObjects\Contracts\Creatable;
 
+/**
+ * @internal
+ */
 final class ExtensionCallableResolver
 {
     /** @codeCoverageIgnore */

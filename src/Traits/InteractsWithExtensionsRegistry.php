@@ -8,7 +8,7 @@ use NorseBlue\ExtensibleObjects\Extensions\ExtensionsRegistry;
 
 trait InteractsWithExtensionsRegistry
 {
-    /** @var ExtensionsRegistry|null The extensions registry. */
+    /** @var ExtensionsRegistry|null The extensions' registry. */
     private static ?ExtensionsRegistry $extensions = null;
 
     /**

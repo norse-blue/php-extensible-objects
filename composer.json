@@ -27,10 +27,11 @@
   },
   "require": {
     "php": "^8.0",
-    "norse-blue/creatable-objects": "^3.0",
-    "norse-blue/handy-properties": "^3.0"
+    "norse-blue/creatable-objects": "^3.1",
+    "norse-blue/handy-properties": "^3.1"
   },
   "require-dev": {
+    "jetbrains/phpstorm-attributes": "^1.0",
     "nunomaduro/phpinsights": "^2.0",
     "phpstan/phpstan": "^0.12.98",
     "phpunit/phpunit": "^9.5",

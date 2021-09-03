@@ -8,6 +8,9 @@ use NorseBlue\ExtensibleObjects\Exceptions\MethodDefinedInClassException;
 use ReflectionClass;
 use ReflectionException;
 
+/**
+ * @internal
+ */
 final class MethodDefinedInClassGuard
 {
     // @codeCoverageIgnoreStart

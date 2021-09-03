@@ -8,6 +8,9 @@ use NorseBlue\ExtensibleObjects\Exceptions\ExtensionNotCallableException;
 use NorseBlue\ExtensibleObjects\Extension;
 use NorseBlue\ExtensibleObjects\Guards\InvalidExtensionGuard;
 
+/**
+ * @internal
+ */
 final class ExtensionResolver
 {
     // @codeCoverageIgnoreStart
