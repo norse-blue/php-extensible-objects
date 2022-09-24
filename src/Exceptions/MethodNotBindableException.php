@@ -36,6 +36,7 @@ final class MethodNotBindableException extends RuntimeException
         $this->error_line = $error_line;
     }
 
+    // @codeCoverageIgnoreStart
     public function getErrorFile(): string
     {
         return $this->error_file;
@@ -45,4 +46,5 @@ final class MethodNotBindableException extends RuntimeException
     {
         return $this->error_line;
     }
+    // @codeCoverageIgnoreEnd
 }

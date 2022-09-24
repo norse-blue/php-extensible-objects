@@ -27,7 +27,9 @@ final class MethodDefinedInClassGuard
     public static function enforce(string $class, string $name): void
     {
         if (! class_exists($class)) {
+            // @codeCoverageIgnoreStart
             throw new ReflectionException("The class '${class}' does not exist.");
+            // @codeCoverageIgnoreEnd
         }
 
         $methods = array_map(
